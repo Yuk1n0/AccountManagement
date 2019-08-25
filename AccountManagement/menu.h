@@ -1,4 +1,3 @@
-//菜单操作函数声明
 #ifndef MENU_H
 #define MENU_H
 void outputmeun();
@@ -10,5 +9,3 @@ void addMoney();
 void refundMoney();
 void Quit();
 #endif
-
-

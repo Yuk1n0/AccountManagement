@@ -8,19 +8,19 @@ using namespace std;
 
 int saveBilling(const Billing* pBilling ,const char * pPath)
 {
-	FILE *fp = NULL;	//¶¨ÒåÎÄ¼şÖ¸Õë
-	//×·¼Ó·½Ê½´ò¿ªÎÄ¼ş
+	FILE *fp = NULL;	//å®šä¹‰æ–‡ä»¶æŒ‡é’ˆ
+	//è¿½åŠ æ–¹å¼æ‰“å¼€æ–‡ä»¶
 	fp = fopen(pPath ,"ab");
 	if (fp==NULL)
 	{
 		fp=fopen(pPath,"wb");
 		if (fp==NULL) 
 		{
-			printf("´ò¿ªÎÄ¼şÊ§°Ü");
+			printf("æ‰“å¼€æ–‡ä»¶å¤±è´¥");
 			return FALSE;
 		}
 	}
-	fwrite(pBilling, sizeof(Billing),1,fp);	//½«¼Æ·ÑĞÅÏ¢Ğ´½øÎÄ¼ş
+	fwrite(pBilling, sizeof(Billing),1,fp);	//å°†è®¡è´¹ä¿¡æ¯å†™è¿›æ–‡ä»¶
 	fclose(fp);
 	return TRUE;
 }
@@ -32,14 +32,14 @@ int getBillingCount (const char *Path)
 	fp = fopen(Path ,"rb");
 	if (fp==NULL)
 	{
-			printf("´ò¿ªÎÄ¼şÊ§°Ü");
+			printf("æ‰“å¼€æ–‡ä»¶å¤±è´¥");
 			return FALSE;
 	}
 
 	Billing* pBilling=new Billing;
 	while (!feof(fp))
 	{
-		if (fread(pBilling,sizeof(Billing),1,fp)==1) //ÓÃfreadÖğÌõ¶ÁÈ¡ÎÄ¼şÖĞµÄÏû·Ñ¼ÇÂ¼
+		if (fread(pBilling,sizeof(Billing),1,fp)==1) //ç”¨freadé€æ¡è¯»å–æ–‡ä»¶ä¸­çš„æ¶ˆè´¹è®°å½•
 		{
 			Index++;
 		}
@@ -49,7 +49,7 @@ int getBillingCount (const char *Path)
 }
 
 
-int readBilling (Billing* pBilling ,const char *pPath) //´ÓÎÄ¼şÖĞ¶ÁÈ¡Ïû·Ñ¼ÇÂ¼
+int readBilling (Billing* pBilling ,const char *pPath) //ä»æ–‡ä»¶ä¸­è¯»å–æ¶ˆè´¹è®°å½•
 {
 	int i=0;
 	Billing* NBilling=new Billing;
@@ -57,7 +57,7 @@ int readBilling (Billing* pBilling ,const char *pPath) //´ÓÎÄ¼şÖĞ¶ÁÈ¡Ïû·Ñ¼ÇÂ¼
 	fp = fopen(pPath ,"rb");
 	while (!feof(fp))
 	{
-		memset(NBilling,0,sizeof(Billing));	//»ñÈ¡Ò»ĞĞÖ®Ç°Çå¿ÕÖ¸ÕëÖĞµÄĞÅÏ¢
+		memset(NBilling,0,sizeof(Billing));	//è·å–ä¸€è¡Œä¹‹å‰æ¸…ç©ºæŒ‡é’ˆä¸­çš„ä¿¡æ¯
 		if (fread(NBilling,sizeof(Billing),1,fp)==1) 
 		{
 			pBilling[i++]=*NBilling;
@@ -71,20 +71,20 @@ int readBilling (Billing* pBilling ,const char *pPath) //´ÓÎÄ¼şÖĞ¶ÁÈ¡Ïû·Ñ¼ÇÂ¼
 int updataBilling (const Billing* pBilling,const char *pPath,int nIndex){
 	FILE *fp = NULL;
 	Billing* NBilling=new Billing;
-	int nLine=0;	//ÎÄ¼şĞĞÊı
-	long lPosition = 0;		//ÎÄ¼şÎ»ÖÃ±êÊ¶
+	int nLine=0;	//æ–‡ä»¶è¡Œæ•°
+	long lPosition = 0;		//æ–‡ä»¶ä½ç½®æ ‡è¯†
 	fp = fopen(pPath ,"rb+");
 	if (fp==NULL) return FALSE;
 	while ( (!feof(fp)) && (nLine<nIndex))
 	{
-		memset(NBilling,0,sizeof(Billing));		//Çå¿ÕÖ®Ç°Ö¸Õë±£´æµÄĞÅÏ¢
+		memset(NBilling,0,sizeof(Billing));		//æ¸…ç©ºä¹‹å‰æŒ‡é’ˆä¿å­˜çš„ä¿¡æ¯
 		if (fread(NBilling,sizeof(Billing),1,fp)==1) 
 		{
-			lPosition=ftell(fp);		//ÓÃftellº¯Êı±£´æÎÄ¼şÖĞÖ¸Õëµ±Ç°Î»ÖÃ
+			lPosition=ftell(fp);		//ç”¨ftellå‡½æ•°ä¿å­˜æ–‡ä»¶ä¸­æŒ‡é’ˆå½“å‰ä½ç½®
 			nLine++;
 		}
 	}
-	fseek(fp, lPosition, 0);	//ÒÆ¶¯µ½ÎÄ¼ş±êÊ¶Î»ÖÃ
+	fseek(fp, lPosition, 0);	//ç§»åŠ¨åˆ°æ–‡ä»¶æ ‡è¯†ä½ç½®
 	fwrite(pBilling, sizeof(Billing),1,fp);
 	fclose(fp);
 	delete NBilling;
@@ -92,7 +92,7 @@ int updataBilling (const Billing* pBilling,const char *pPath,int nIndex){
 }
 
 
-int FindBillingName (const char* pName, const char* pPath)//´ÓÎÄ¼şÖĞÑ°ÕÒÍ¬Ãû¼Æ·ÑĞÅÏ¢ÊÇ·ñ´æÔÚ ´æÔÚ·µ»ØTRUE
+int FindBillingName (const char* pName, const char* pPath)//ä»æ–‡ä»¶ä¸­å¯»æ‰¾åŒåè®¡è´¹ä¿¡æ¯æ˜¯å¦å­˜åœ¨ å­˜åœ¨è¿”å›TRUE
 {
 	FILE *fp=NULL;
 	Billing* NBilling=new Billing;
@@ -100,7 +100,7 @@ int FindBillingName (const char* pName, const char* pPath)//´ÓÎÄ¼şÖĞÑ°ÕÒÍ¬Ãû¼Æ·Ñ
 	if (fp==NULL) return FALSE;	
 	while (!feof(fp))
 	{
-		memset(NBilling,0,sizeof(Billing));	//»ñÈ¡Ò»ĞĞÖ®Ç°Çå¿ÕÖ¸ÕëÖĞµÄĞÅÏ¢
+		memset(NBilling,0,sizeof(Billing));	//è·å–ä¸€è¡Œä¹‹å‰æ¸…ç©ºæŒ‡é’ˆä¸­çš„ä¿¡æ¯
 		if (fread(NBilling,sizeof(Billing),1,fp)==1)
 		{
 			if (strcmp(pName,NBilling->aCardName)==0 && NBilling->nStatus==1)	
@@ -117,20 +117,20 @@ int FindBillingName (const char* pName, const char* pPath)//´ÓÎÄ¼şÖĞÑ°ÕÒÍ¬Ãû¼Æ·Ñ
 }
 
 
-int putBillings(const char* pName,const int a)//¸ù¾İ²»Í¬Çé¿öÊä³ö¼Æ·ÑĞÅÏ¢
+int putBillings(const char* pName,const int a)//æ ¹æ®ä¸åŒæƒ…å†µè¾“å‡ºè®¡è´¹ä¿¡æ¯
 {
 	FILE *fp = NULL;
 	fp = fopen(BILLINGPATH,"rb");
 	if (fp==NULL) return FALSE;
 	Billing* pBilling=new Billing;
 	char atime[20]={0};
-	int i=0;		//ÅĞ¶Ï²éÑ¯µ½µÄ¼Æ·ÑĞÅÏ¢ÊıÁ¿
-	//Èç¹ûÊÇ¿¨ºÅ²éÑ¯
+	int i=0;		//åˆ¤æ–­æŸ¥è¯¢åˆ°çš„è®¡è´¹ä¿¡æ¯æ•°é‡
+	//å¦‚æœæ˜¯å¡å·æŸ¥è¯¢
 	if (a==1)
 	{
 		while ( !feof(fp))
 		{
-			memset(pBilling,0,sizeof(Billing));		//Çå¿ÕÖ®Ç°Ö¸Õë±£´æµÄĞÅÏ¢
+			memset(pBilling,0,sizeof(Billing));		//æ¸…ç©ºä¹‹å‰æŒ‡é’ˆä¿å­˜çš„ä¿¡æ¯
 			if (fread(pBilling,sizeof(Billing),1,fp)==1) 
 			{		
 				if(strcmp(pBilling->aCardName,pName)==0 && pBilling->nStatus==1)
@@ -138,7 +138,7 @@ int putBillings(const char* pName,const int a)//¸ù¾İ²»Í¬Çé¿öÊä³ö¼Æ·ÑĞÅÏ¢
 					i++;
 					if (i==1)
 					{
-						cout<<"\n¿¨ºÅ\tÏû·Ñ½ğ¶î\tÏû·ÑÊ±¼ä\n";
+						cout<<"\nå¡å·\tæ¶ˆè´¹é‡‘é¢\tæ¶ˆè´¹æ—¶é—´\n";
 					}
 					timeToString(pBilling->tStart,atime);
 					cout<<pBilling->aCardName<<"\t"<<pBilling->fAmount<<"\t\t"<<atime<<"\n";		
@@ -146,7 +146,7 @@ int putBillings(const char* pName,const int a)//¸ù¾İ²»Í¬Çé¿öÊä³ö¼Æ·ÑĞÅÏ¢
 			}
 		}
 	}
-	//Èç¹ûÊÇÊ±¼ä²éÑ¯
+	//å¦‚æœæ˜¯æ—¶é—´æŸ¥è¯¢
 	else {
 		tm *time=NULL;
 		while ( !feof(fp))
@@ -161,7 +161,7 @@ int putBillings(const char* pName,const int a)//¸ù¾İ²»Í¬Çé¿öÊä³ö¼Æ·ÑĞÅÏ¢
 					i++;
 					if (i==1)
 					{
-						cout<<"\n¿¨ºÅ\tÏû·Ñ½ğ¶î\tÏû·ÑÊ±¼ä\n";
+						cout<<"\nå¡å·\tæ¶ˆè´¹é‡‘é¢\tæ¶ˆè´¹æ—¶é—´\n";
 					}
 					timeToString(pBilling->tStart,atime);
 					cout<<pBilling->aCardName<<"\t"<<pBilling->fAmount<<"\t\t"<<atime<<"\n";
@@ -171,7 +171,7 @@ int putBillings(const char* pName,const int a)//¸ù¾İ²»Í¬Çé¿öÊä³ö¼Æ·ÑĞÅÏ¢
 	}
 	if (i==0) 
 	{
-		cout<<"\nÎŞ¶ÔÓ¦¼Æ·ÑĞÅÏ¢¡£\n";
+		cout<<"\næ— å¯¹åº”è®¡è´¹ä¿¡æ¯ã€‚\n";
 		fclose(fp);
 		delete pBilling;
 		return FALSE;
@@ -181,9 +181,7 @@ int putBillings(const char* pName,const int a)//¸ù¾İ²»Í¬Çé¿öÊä³ö¼Æ·ÑĞÅÏ¢
 	return TRUE;
 }
 
-
-
-void staticiseall()//Í³¼Æ×ÜÓªÒµ¶î
+void staticiseall()//ç»Ÿè®¡æ€»è¥ä¸šé¢
 {
 	FILE *fp = NULL;
 	fp = fopen(BILLINGPATH,"rb");
@@ -195,15 +193,15 @@ void staticiseall()//Í³¼Æ×ÜÓªÒµ¶î
 	float all=0.0;
 	while ( !feof(fp))
 	{
-		memset(pBilling,0,sizeof(Billing));		//Çå¿ÕÖ®Ç°Ö¸Õë±£´æµÄĞÅÏ¢
+		memset(pBilling,0,sizeof(Billing));		//æ¸…ç©ºä¹‹å‰æŒ‡é’ˆä¿å­˜çš„ä¿¡æ¯
 		if (fread(pBilling,sizeof(Billing),1,fp)==1) 
 		{		
 			if(pBilling->nStatus==1)
-				//×Ü¶î¼ÓÉÏÏû·Ñ½ğ¶î
+				//æ€»é¢åŠ ä¸Šæ¶ˆè´¹é‡‘é¢
 				all+=pBilling->fAmount;		
 		}
 	}
-	cout<<"\n×ÜÓªÒµ¶îÎª£º "<<all<<endl;
+	cout<<"\næ€»è¥ä¸šé¢ä¸ºï¼š "<<all<<endl;
 	fclose(fp);
 	delete pBilling;
 }

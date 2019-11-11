@@ -1,80 +1,80 @@
 #ifndef MODEL_H
 #define MODEL_H
-#include<time.h>
+#include <time.h>
 
-//¿¨ĞÅÏ¢½á¹¹Ìå¶¨Òå
+//å¡ä¿¡æ¯ç»“æ„ä½“å®šä¹‰
 typedef struct Card
 {
-    char aName[18];		//¿¨ºÅ
-    char aPwd[10];	//ÃÜÂë
-    int nStatus;	//¿¨×´Ì¬ 0 Î´ÉÏ»ú 1ÕıÔÚÉÏ»ú 2ÒÑ×¢Ïú 3Ê§Ğ§
-    time_t tStart;	//¿ª¿¨Ê±¼ä
-    time_t tEnd;	//½ØÖ¹Ê±¼ä
-    float fTotalUse;//ÀÛ¼Æ½ğ¶î
-    time_t tLastTime;	//ÉÏ´ÎĞŞ¸ÄÊ±¼ä
-    int nUseCount;	//ÀÛ¼ÆÊ¹ÓÃ´ÎÊı
-    float nBalance;	//Óà¶î
-    int nDel;	//É¾³ı±êÊ¶ 0Î´É¾³ı 1ÒÑÉ¾³ı
-}Card;
+    char aName[18];   //å¡å·
+    char aPwd[10];    //å¯†ç 
+    int nStatus;      //å¡çŠ¶æ€ 0 æœªä¸Šæœº 1æ­£åœ¨ä¸Šæœº 2å·²æ³¨é”€ 3å¤±æ•ˆ
+    time_t tStart;    //å¼€å¡æ—¶é—´
+    time_t tEnd;      //æˆªæ­¢æ—¶é—´
+    float fTotalUse;  //ç´¯è®¡é‡‘é¢
+    time_t tLastTime; //ä¸Šæ¬¡ä¿®æ”¹æ—¶é—´
+    int nUseCount;    //ç´¯è®¡ä½¿ç”¨æ¬¡æ•°
+    float nBalance;   //ä½™é¢
+    int nDel;         //åˆ é™¤æ ‡è¯† 0æœªåˆ é™¤ 1å·²åˆ é™¤
+} Card;
 
-//¿¨ĞÅÏ¢½á¹¹Ìå½áµã¶¨Òå
+//å¡ä¿¡æ¯ç»“æ„ä½“ç»“ç‚¹å®šä¹‰
 typedef struct CardNode
 {
     Card CardData;
     CardNode *NextNode;
-}CardNode,*IpCardNode;
+} CardNode, *IpCardNode;
 
-//Ïû·ÑĞÅÏ¢½á¹¹Ìå¶¨Òå
+//æ¶ˆè´¹ä¿¡æ¯ç»“æ„ä½“å®šä¹‰
 typedef struct Billling
 {
-    char aCardName[18];		//¿¨ºÅ
-    time_t tStart;	//ÉÏ»úÊ±¼ä
-    time_t tEnd;	//ÏÂ»úÊ±¼ä
-    float fAmount;	//Ïû·Ñ½ğ¶î
-    int nStatus;	//Ïû·Ñ×´Ì¬ 0Î´½áËã 1ÒÑ½áËã
-    int nDel;	//É¾³ı±êÊ¶ 0Î´É¾³ı 1ÒÑÉ¾³ı
-}Billing;
+    char aCardName[18]; //å¡å·
+    time_t tStart;      //ä¸Šæœºæ—¶é—´
+    time_t tEnd;        //ä¸‹æœºæ—¶é—´
+    float fAmount;      //æ¶ˆè´¹é‡‘é¢
+    int nStatus;        //æ¶ˆè´¹çŠ¶æ€ 0æœªç»“ç®— 1å·²ç»“ç®—
+    int nDel;           //åˆ é™¤æ ‡è¯† 0æœªåˆ é™¤ 1å·²åˆ é™¤
+} Billing;
 
-//Ïû·ÑĞÅÏ¢½á¹¹Ìå½áµã¶¨Òå
+//æ¶ˆè´¹ä¿¡æ¯ç»“æ„ä½“ç»“ç‚¹å®šä¹‰
 typedef struct BillingNode
 {
     Billing BillingData;
     BillingNode *NextNode;
-}BillingNode,*IpBillingNode;
+} BillingNode, *IpBillingNode;
 
-//ÉÏ»úĞÅÏ¢½á¹¹Ìå
+//ä¸Šæœºä¿¡æ¯ç»“æ„ä½“
 typedef struct LogonInfo
 {
-    char aCardName[18];		//¿¨ºÅ
-    time_t tLogon;		//ÉÏ»úÊ±¼ä
-    float fBalance;		//ÉÏ»úÊ±µÄ¿¨Óà¶î
-}LogonInfo;
+    char aCardName[18]; //å¡å·
+    time_t tLogon;      //ä¸Šæœºæ—¶é—´
+    float fBalance;     //ä¸Šæœºæ—¶çš„å¡ä½™é¢
+} LogonInfo;
 
-//ÏÂ»úĞÅÏ¢½á¹¹Ìå
+//ä¸‹æœºä¿¡æ¯ç»“æ„ä½“
 typedef struct SettleInfo
 {
-    char aCardName[18];		//¿¨ºÅ
-    time_t tStart;	//ÉÏ»úÊ±¼ä
-    time_t tEnd;	//ÏÂ»úÊ±¼ä
-    float fAmount;	//Ïû·Ñ½ğ¶î
-    float fBalance;	//Óà¶î
-}SettleInfo;
+    char aCardName[18]; //å¡å·
+    time_t tStart;      //ä¸Šæœºæ—¶é—´
+    time_t tEnd;        //ä¸‹æœºæ—¶é—´
+    float fAmount;      //æ¶ˆè´¹é‡‘é¢
+    float fBalance;     //ä½™é¢
+} SettleInfo;
 
-//³äÖµÍË·Ñ½á¹¹Ìå¶¨Òå
+//å……å€¼é€€è´¹ç»“æ„ä½“å®šä¹‰
 typedef struct Money
 {
-    char aCardName[18];		//¿¨ºÅ
-    time_t time;		//³äÖµÍË·ÑÊ±¼ä
-    int nStatus;	//×´Ì¬ 0³äÖµ 1ÍË·Ñ
-    float money;	//³äÖµÍË·Ñ½ğ¶î
-    int nDel;	//É¾³ı±êÊ¶ 0Î´É¾³ı 1ÒÑÉ¾³ı
-}Money;
+    char aCardName[18]; //å¡å·
+    time_t time;        //å……å€¼é€€è´¹æ—¶é—´
+    int nStatus;        //çŠ¶æ€ 0å……å€¼ 1é€€è´¹
+    float money;        //å……å€¼é€€è´¹é‡‘é¢
+    int nDel;           //åˆ é™¤æ ‡è¯† 0æœªåˆ é™¤ 1å·²åˆ é™¤
+} Money;
 
-//³äÖµÍË·ÑĞÅÏ¢½á¹¹Ìå¶¨Òå
+//å……å€¼é€€è´¹ä¿¡æ¯ç»“æ„ä½“å®šä¹‰
 typedef struct MoneyInfo
 {
-    char aCardName[18];		//¿¨ºÅ
-    float money;	//³äÖµÍË·Ñ½ğ¶î
-    float fBalance;		//Óà¶î
-}MoneyInfo;
+    char aCardName[18]; //å¡å·
+    float money;        //å……å€¼é€€è´¹é‡‘é¢
+    float fBalance;     //ä½™é¢
+} MoneyInfo;
 #endif

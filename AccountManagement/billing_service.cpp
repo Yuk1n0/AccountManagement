@@ -1,24 +1,26 @@
-#include<iostream>
-#include<stdio.h>
-#include"model.h"
-#include"global.h"
-#include"tools.h"
-#include"billing_file.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "model.h"
+#include "global.h"
+#include "tools.h"
+#include "billing_file.h"
 using namespace std;
 
-IpBillingNode BillingList = NULL;	//È«¾Ö¶¨ÒåÏû·ÑĞÅÏ¢Á´±í±£´æËùÓĞÏû·ÑĞÅÏ¢
-int nbillingCount=0;	
+IpBillingNode BillingList = NULL; //å…¨å±€å®šä¹‰æ¶ˆè´¹ä¿¡æ¯é“¾è¡¨ä¿å­˜æ‰€æœ‰æ¶ˆè´¹ä¿¡æ¯
+int nbillingCount = 0;
 
 int addBilling(Billing billing)
 {
-    return saveBilling (&billing,BILLINGPATH);
+    return saveBilling(&billing, BILLINGPATH);
 }
 
 int initBillingList()
 {
     if (!BillingList)
     {
-        BillingList = new BillingNode;	
+        BillingList = new BillingNode;
         BillingList->NextNode = NULL;
         return TRUE;
     }
@@ -27,58 +29,58 @@ int initBillingList()
 
 void releaseBillingList()
 {
-    IpBillingNode thisNode=BillingList, nextNode=NULL;
-    while (thisNode!=NULL)
+    IpBillingNode thisNode = BillingList, nextNode = NULL;
+    while (thisNode != NULL)
     {
         nextNode = thisNode->NextNode;
         delete thisNode;
         thisNode = nextNode;
-        BillingList=NULL;
+        BillingList = NULL;
     }
 }
 
 int getBilling()
 {
-    int i=0;
-    Billing* pBilling=NULL;	
-    
+    int i = 0;
+    Billing *pBilling = NULL;
+
     releaseBillingList();
     initBillingList();
-    nbillingCount=getBillingCount(BILLINGPATH);
-    pBilling = (Billing*)malloc(sizeof(Billing)*nbillingCount);//¶¯Ì¬·ÖÅäÄÚ´æ
-    //´ÓÎÄ¼şÖĞ¶ÁÈ¡Ïû·ÑĞÅÏ¢²¢Ìí¼Óµ½Ôİ´æÖ¸ÕëÖĞ
-    if (readBilling(pBilling ,BILLINGPATH)==0)
+    nbillingCount = getBillingCount(BILLINGPATH);
+    pBilling = (Billing *)malloc(sizeof(Billing) * nbillingCount); //åŠ¨æ€åˆ†é…å†…å­˜
+    //ä»æ–‡ä»¶ä¸­è¯»å–æ¶ˆè´¹ä¿¡æ¯å¹¶æ·»åŠ åˆ°æš‚å­˜æŒ‡é’ˆä¸­
+    if (readBilling(pBilling, BILLINGPATH) == 0)
     {
-        cout<<"¶ÁÈ¡Ê§°Ü";
+        cout << "è¯»å–å¤±è´¥";
         free(pBilling);
         return FALSE;
     }
-    //½«¶ÁÈ¡µÄÏû·ÑĞÅÏ¢Ìí¼Óµ½Á´±íÖĞ
-    IpBillingNode p1=BillingList,p2=NULL;
-    for (;i<nbillingCount;i++)
+    //å°†è¯»å–çš„æ¶ˆè´¹ä¿¡æ¯æ·»åŠ åˆ°é“¾è¡¨ä¸­
+    IpBillingNode p1 = BillingList, p2 = NULL;
+    for (; i < nbillingCount; i++)
     {
-        p2=new BillingNode;
-        p2->BillingData=pBilling[i];
-        p2->NextNode=NULL;
-        p1=p1->NextNode=p2;
+        p2 = new BillingNode;
+        p2->BillingData = pBilling[i];
+        p2->NextNode = NULL;
+        p1 = p1->NextNode = p2;
     }
     free(pBilling);
     return TRUE;
 }
 
-//Í¨¹ı¿¨ºÅ²éÕÒ¶ÔÓ¦Ïû·ÑĞÅÏ¢²¢±£´æË÷ÒıºÅ
-Billing* checkBilling(const char *pName,int &nIndex)
+//é€šè¿‡å¡å·æŸ¥æ‰¾å¯¹åº”æ¶ˆè´¹ä¿¡æ¯å¹¶ä¿å­˜ç´¢å¼•å·
+Billing *checkBilling(const char *pName, int &nIndex)
 {
-    if (getBilling()!=0)
+    if (getBilling() != 0)
     {
-        IpBillingNode BillingNow= NULL;
-        nIndex=0;
-        //±éÀúÁ´±í½øĞĞ²éÑ¯
-        for(BillingNow= BillingList->NextNode;BillingNow!=NULL;BillingNow=BillingNow->NextNode)
+        IpBillingNode BillingNow = NULL;
+        nIndex = 0;
+        //éå†é“¾è¡¨è¿›è¡ŒæŸ¥è¯¢
+        for (BillingNow = BillingList->NextNode; BillingNow != NULL; BillingNow = BillingNow->NextNode)
         {
-            if ((strcmp(BillingNow->BillingData.aCardName,pName)==0)&&(BillingNow->BillingData.nStatus==0)) 
+            if ((strcmp(BillingNow->BillingData.aCardName, pName) == 0) && (BillingNow->BillingData.nStatus == 0))
             {
-                return &BillingNow->BillingData;				
+                return &BillingNow->BillingData;
             }
             nIndex++;
         }

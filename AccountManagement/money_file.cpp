@@ -1,23 +1,25 @@
-#include<iostream>
-#include"model.h"
-#include"global.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include "model.h"
+#include "global.h"
 using namespace std;
 
-int saveMoney(const Money *pMoney ,const char *pPath)
+int saveMoney(const Money *pMoney, const char *pPath)
 {
     FILE *fp = NULL;
-    fp = fopen(pPath ,"ab");
-    if (fp==NULL)
+    fp = fopen(pPath, "ab");
+    if (fp == NULL)
     {
-        fp=fopen(pPath,"wb");
-        if (fp==NULL) 
+        fp = fopen(pPath, "wb");
+        if (fp == NULL)
         {
-            printf("´ò¿ªÎÄ¼şÊ§°Ü");
+            printf("æ‰“å¼€æ–‡ä»¶å¤±è´¥");
             return FALSE;
         }
     }
-    //½«³äÖµÍË·ÑĞÅÏ¢Ğ´½øÎÄ¼ş
-    fwrite(pMoney, sizeof(Money),1,fp);
+    //å°†å……å€¼é€€è´¹ä¿¡æ¯å†™è¿›æ–‡ä»¶
+    fwrite(pMoney, sizeof(Money), 1, fp);
     fclose(fp);
     return TRUE;
 }

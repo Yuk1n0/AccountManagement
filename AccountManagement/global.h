@@ -2,11 +2,11 @@
 #define GLOBAL_H
 #define TRUE 1
 #define FALSE 0
-#define UNUSE 2		//¿¨²»ÄÜÊ¹ÓÃ
-#define ENOUGHMONEY 3		//Óà¶î²»×ã
-#define CARDPATH  "data\\card.ams"	//¿¨ĞÅÏ¢±£´æÎÄ¼şÂ·¾¶¶¨Òå
-#define BILLINGPATH "data\\Billing.ams"	//¼Æ·ÑĞÅÏ¢ÎÄ¼ş±£´æÂ·¾¶
-#define MONEYPATH "data\\money.ams"		//³äÖµÍË·ÑĞÅÏ¢±£´æÂ·¾¶
-#define UNIT 15			//¼Æ·ÑĞÅÏ¢µ¥Ôª 15·ÖÖÓ
-#define CHARGE 0.5		//Ã¿µ¥Ôª5½ÇÇ®
+#define UNUSE 2                         //å¡ä¸èƒ½ä½¿ç”¨
+#define ENOUGHMONEY 3                   //ä½™é¢ä¸è¶³
+#define CARDPATH "data\\card.ams"       //å¡ä¿¡æ¯ä¿å­˜æ–‡ä»¶è·¯å¾„å®šä¹‰
+#define BILLINGPATH "data\\Billing.ams" //è®¡è´¹ä¿¡æ¯æ–‡ä»¶ä¿å­˜è·¯å¾„
+#define MONEYPATH "data\\money.ams"     //å……å€¼é€€è´¹ä¿¡æ¯ä¿å­˜è·¯å¾„
+#define UNIT 15                         //è®¡è´¹ä¿¡æ¯å•å…ƒ 15åˆ†é’Ÿ
+#define CHARGE 0.5                      //æ¯å•å…ƒ5è§’é’±
 #endif

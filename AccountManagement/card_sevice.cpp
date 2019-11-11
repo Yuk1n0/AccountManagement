@@ -1,19 +1,21 @@
-#include<iostream>
-#include"card_file.h"
-#include"model.h"
-#include"global.h"
-#include<stdio.h>
-#include"billing_service.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "card_file.h"
+#include "model.h"
+#include "global.h"
+#include "billing_service.h"
 using namespace std;
 
-IpCardNode cardList = NULL;	//È«¾Ö¶¨Òå¿¨ĞÅÏ¢Á´±í±£´æËùÓĞ¿¨ĞÅÏ¢
-int ncardCount=0;	
+IpCardNode cardList = NULL; //å…¨å±€å®šä¹‰å¡ä¿¡æ¯é“¾è¡¨ä¿å­˜æ‰€æœ‰å¡ä¿¡æ¯
+int ncardCount = 0;
 
 int initcardList()
 {
     if (!cardList)
     {
-        cardList = new CardNode;	
+        cardList = new CardNode;
         cardList->NextNode = NULL;
         return TRUE;
     }
@@ -22,38 +24,38 @@ int initcardList()
 
 void releaseCardList()
 {
-    IpCardNode thisNode=cardList, nextNode=NULL;
-    while (thisNode!=NULL)
+    IpCardNode thisNode = cardList, nextNode = NULL;
+    while (thisNode != NULL)
     {
         nextNode = thisNode->NextNode;
         delete thisNode;
         thisNode = nextNode;
-        cardList=NULL;
+        cardList = NULL;
     }
 }
 
 int getCard()
 {
-    int i=0;
-    Card* pCard=NULL;		
+    int i = 0;
+    Card *pCard = NULL;
     releaseCardList();
     initcardList();
-    ncardCount=getCardCount(CARDPATH);
-    pCard = (Card*)malloc(sizeof(Card)*ncardCount);
-    if (readCard(pCard ,CARDPATH)==0)//´ÓÎÄ¼şÖĞ¶ÁÈ¡¿¨ĞÅÏ¢²¢Ìí¼Óµ½Ôİ´æÖ¸ÕëÖĞ
+    ncardCount = getCardCount(CARDPATH);
+    pCard = (Card *)malloc(sizeof(Card) * ncardCount);
+    if (readCard(pCard, CARDPATH) == 0) //ä»æ–‡ä»¶ä¸­è¯»å–å¡ä¿¡æ¯å¹¶æ·»åŠ åˆ°æš‚å­˜æŒ‡é’ˆä¸­
     {
-        cout<<"¶ÁÈ¡Ê§°Ü";
+        cout << "è¯»å–å¤±è´¥";
         free(pCard);
         return FALSE;
     }
-    //½«¶ÁÈ¡µÄ¿¨ĞÅÏ¢Ìí¼Óµ½Á´±íÖĞ
-    IpCardNode p1=cardList,p2=NULL;
-    for (;i<ncardCount;i++)
+    //å°†è¯»å–çš„å¡ä¿¡æ¯æ·»åŠ åˆ°é“¾è¡¨ä¸­
+    IpCardNode p1 = cardList, p2 = NULL;
+    for (; i < ncardCount; i++)
     {
-        p2=new CardNode;
-        p2->CardData=pCard[i];
-        p2->NextNode=NULL;
-        p1=p1->NextNode=p2;
+        p2 = new CardNode;
+        p2->CardData = pCard[i];
+        p2->NextNode = NULL;
+        p1 = p1->NextNode = p2;
     }
     free(pCard);
     return TRUE;
@@ -61,57 +63,60 @@ int getCard()
 
 int addCard(Card card)
 {
-    return saveCard(&card,CARDPATH);
+    return saveCard(&card, CARDPATH);
 }
 
-Card* queryCard(const char *pName)
+Card *queryCard(const char *pName)
 {
-    if (getCard()!=0)
+    if (getCard() != 0)
     {
-        IpCardNode cardNow= NULL;
-        for(cardNow= cardList;cardNow!=NULL;cardNow=cardNow->NextNode)
+        IpCardNode cardNow = NULL;
+        for (cardNow = cardList; cardNow != NULL; cardNow = cardNow->NextNode)
         {
-            if (strcmp(cardNow->CardData.aName,pName)==0) return &cardNow->CardData;
+            if (strcmp(cardNow->CardData.aName, pName) == 0)
+                return &cardNow->CardData;
         }
     }
     return NULL;
-} 
+}
 
-Card *queryCards(const char *pName,int &nIndex)
+Card *queryCards(const char *pName, int &nIndex)
 {
-    //¶¨ÒåÒ»¸öĞÂÖ¸ÕëÀ´½øĞĞ²éÑ¯	
-    IpCardNode cardNow= NULL;
-    //Ò»¸öÖ¸ÕëÀ´Êä³ö²éÕÒµÄËùÓĞ¿¨ĞÅÏ¢ 
-    Card* putCards=NULL;
-    //Îª½Úµã·ÖÅäÒ»¸öĞÂ¿Õ¼ä
-    putCards=new Card;
-    if (getCard()!=0)
+    //å®šä¹‰ä¸€ä¸ªæ–°æŒ‡é’ˆæ¥è¿›è¡ŒæŸ¥è¯¢
+    IpCardNode cardNow = NULL;
+    //ä¸€ä¸ªæŒ‡é’ˆæ¥è¾“å‡ºæŸ¥æ‰¾çš„æ‰€æœ‰å¡ä¿¡æ¯
+    Card *putCards = NULL;
+    //ä¸ºèŠ‚ç‚¹åˆ†é…ä¸€ä¸ªæ–°ç©ºé—´
+    putCards = new Card;
+    if (getCard() != 0)
     {
-        for (IpCardNode NOW=cardList;NOW!=NULL;NOW=NOW->NextNode)
+        for (IpCardNode NOW = cardList; NOW != NULL; NOW = NOW->NextNode)
         {
-            if (strstr(NOW->CardData.aName,pName)!=NULL)
+            if (strstr(NOW->CardData.aName, pName) != NULL)
             {
-                putCards[nIndex++]=NOW->CardData;
-                putCards=(Card*)realloc(putCards,sizeof(Card)*(nIndex+1));
+                putCards[nIndex++] = NOW->CardData;
+                putCards = (Card *)realloc(putCards, sizeof(Card) * (nIndex + 1));
             }
         }
-        if(nIndex!=0) return putCards;
-        else free(putCards);
+        if (nIndex != 0)
+            return putCards;
+        else
+            free(putCards);
     }
     return NULL;
 }
 
-Card* checkCard(const char *pName,const char *aPwd,int &nIndex)
+Card *checkCard(const char *pName, const char *aPwd, int &nIndex)
 {
-    if (getCard()!=0)
+    if (getCard() != 0)
     {
-        IpCardNode cardNow= NULL;
-        nIndex=0;
-        for(cardNow= cardList->NextNode;cardNow!=NULL;cardNow=cardNow->NextNode)
+        IpCardNode cardNow = NULL;
+        nIndex = 0;
+        for (cardNow = cardList->NextNode; cardNow != NULL; cardNow = cardNow->NextNode)
         {
-            if ((strcmp(cardNow->CardData.aName,pName)==0)&&(strcmp(cardNow->CardData.aPwd,aPwd)==0)) 
+            if ((strcmp(cardNow->CardData.aName, pName) == 0) && (strcmp(cardNow->CardData.aPwd, aPwd) == 0))
             {
-                return &cardNow->CardData;				
+                return &cardNow->CardData;
             }
             nIndex++;
         }

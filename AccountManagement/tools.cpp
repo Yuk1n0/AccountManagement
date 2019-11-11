@@ -1,34 +1,41 @@
-#include<time.h>
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
 
-void timeToString(time_t t, char *pBuf)//½«ÄêÔÂÈÕÊ±·Ö×ª»»³ÉÊ±¼ä×Ö·ûµÄĞÎÊ½
+void timeToString(time_t t, char *pBuf) //å°†å¹´æœˆæ—¥æ—¶åˆ†è½¬æ¢æˆæ—¶é—´å­—ç¬¦çš„å½¢å¼
 {
     struct tm *pTimeInfo;
-    pTimeInfo=localtime(&t);
-    strftime(pBuf,20,"%Y-%m-%d %H:%M",pTimeInfo);
+    pTimeInfo = localtime(&t);
+    strftime(pBuf, 20, "%Y-%m-%d %H:%M", pTimeInfo);
 }
 
-time_t stringTotime(char *pBuf)//½«Ê±¼ä×Ö·û×ª»»³ÉÄêÔÂÈÕÊ±·ÖµÄĞÎÊ½
+time_t stringTotime(char *pBuf) //å°†æ—¶é—´å­—ç¬¦è½¬æ¢æˆå¹´æœˆæ—¥æ—¶åˆ†çš„å½¢å¼
 {
     time_t time1;
     struct tm tm1;
-    memset(&tm1,0,sizeof(struct tm));
-    sscanf(pBuf,"%d-%d-%d %d:%d", &tm1.tm_year, &tm1.tm_mon, &tm1.tm_mday, &tm1.tm_hour, &tm1.tm_min);
-    tm1.tm_year-=1900;
-    tm1.tm_mon-=1;
-    tm1.tm_sec=0;
+    memset(&tm1, 0, sizeof(struct tm));
+    sscanf(pBuf, "%d-%d-%d %d:%d", &tm1.tm_year, &tm1.tm_mon, &tm1.tm_mday, &tm1.tm_hour, &tm1.tm_min);
+    tm1.tm_year -= 1900;
+    tm1.tm_mon -= 1;
+    tm1.tm_sec = 0;
     time1 = mktime(&tm1);
     return time1;
 }
 
-void statusInttoChar(int status,char* pbuf)//½«¿¨×´Ì¬Êı×Ö×ª»»³ÉÎÄ×ÖµÄĞÎÊ½
+void statusInttoChar(int status, char *pbuf) //å°†å¡çŠ¶æ€æ•°å­—è½¬æ¢æˆæ–‡å­—çš„å½¢å¼
 {
-    switch(status)
+    switch (status)
     {
-        case 0: sprintf(pbuf,"¿¨×´Ì¬Õı³£");break;
-        case 1: sprintf(pbuf,"ÕıÔÚÉÏ»ú");break;
-        case 2: sprintf(pbuf,"¿¨ÒÑ×¢Ïú");break;
-        default: sprintf(pbuf,"¿¨ÒÑÊ§Ğ§");
+    case 0:
+        sprintf(pbuf, "å¡çŠ¶æ€æ­£å¸¸");
+        break;
+    case 1:
+        sprintf(pbuf, "æ­£åœ¨ä¸Šæœº");
+        break;
+    case 2:
+        sprintf(pbuf, "å¡å·²æ³¨é”€");
+        break;
+    default:
+        sprintf(pbuf, "å¡å·²å¤±æ•ˆ");
     }
 }

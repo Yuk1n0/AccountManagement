@@ -1,41 +1,41 @@
-#include"model.h"
-#include"global.h"
-#include<stdio.h>
-#include"tools.h"
-#include<string.h>
-#include<stdlib.h>
-#include<iostream>
+#include <iostream>
+#include "model.h"
+#include "global.h"
+#include <stdio.h>
+#include "tools.h"
+#include <string.h>
+#include <stdlib.h>
 
-int saveCard (const Card* pCard ,const char * pPath)
+int saveCard(const Card *pCard, const char *pPath)
 {
     FILE *fp = NULL;
-    fp = fopen(pPath ,"ab");
-    if (fp==NULL)
+    fp = fopen(pPath, "ab");
+    if (fp == NULL)
     {
-        fp=fopen(pPath,"wb");
-        if (fp==NULL) 
+        fp = fopen(pPath, "wb");
+        if (fp == NULL)
         {
-            std::cout<<"´ò¿ªÎÄ¼şÊ§°Ü";
+            std::cout << "æ‰“å¼€æ–‡ä»¶å¤±è´¥";
             return FALSE;
         }
     }
-    fwrite(pCard, sizeof(Card),1,fp);
+    fwrite(pCard, sizeof(Card), 1, fp);
     fclose(fp);
     return TRUE;
 }
 
-int readCard (Card *pCard ,const char *pPath)
+int readCard(Card *pCard, const char *pPath)
 {
-    int i=0;
-    Card* NCard=new Card;
+    int i = 0;
+    Card *NCard = new Card;
     FILE *fp = NULL;
-    fp = fopen(pPath ,"rb");
+    fp = fopen(pPath, "rb");
     while (!feof(fp))
     {
-        memset(NCard,0,sizeof(Card));	//»ñÈ¡Ò»ĞĞÖ®Ç°Çå¿ÕÖ¸ÕëÖĞµÄĞÅÏ¢
-        if (fread(NCard,sizeof(Card),1,fp)==1) 
+        memset(NCard, 0, sizeof(Card)); //è·å–ä¸€è¡Œä¹‹å‰æ¸…ç©ºæŒ‡é’ˆä¸­çš„ä¿¡æ¯
+        if (fread(NCard, sizeof(Card), 1, fp) == 1)
         {
-            pCard[i++]=*NCard;
+            pCard[i++] = *NCard;
         }
     }
     fclose(fp);
@@ -43,21 +43,21 @@ int readCard (Card *pCard ,const char *pPath)
     return TRUE;
 }
 
-int FindCardName (const char* pName, const char* pPath)
+int FindCardName(const char *pName, const char *pPath)
 {
-    FILE *fp=NULL;
-    Card* NCard=new Card;
-    fp = fopen(pPath ,"rb");
-    if (fp==NULL) 
+    FILE *fp = NULL;
+    Card *NCard = new Card;
+    fp = fopen(pPath, "rb");
+    if (fp == NULL)
     {
         return FALSE;
     }
     while (!feof(fp))
     {
-        memset(NCard,0,sizeof(Card));	//»ñÈ¡Ò»ĞĞÖ®Ç°Çå¿ÕÖ¸ÕëÖĞµÄĞÅÏ¢
-        if (fread(NCard,sizeof(Card),1,fp)==1) 
+        memset(NCard, 0, sizeof(Card)); //è·å–ä¸€è¡Œä¹‹å‰æ¸…ç©ºæŒ‡é’ˆä¸­çš„ä¿¡æ¯
+        if (fread(NCard, sizeof(Card), 1, fp) == 1)
         {
-            if (strcmp(pName,NCard->aName)==0)	
+            if (strcmp(pName, NCard->aName) == 0)
             {
                 fclose(fp);
                 delete NCard;
@@ -72,15 +72,16 @@ int FindCardName (const char* pName, const char* pPath)
 
 int getCardCount(const char *Path)
 {
-    int Index=0;
-    FILE *fp=NULL;
-    Card *NCard=new Card;
-    fp = fopen(Path ,"rb");
-    if (fp==NULL) return FALSE;
+    int Index = 0;
+    FILE *fp = NULL;
+    Card *NCard = new Card;
+    fp = fopen(Path, "rb");
+    if (fp == NULL)
+        return FALSE;
     while (!feof(fp))
     {
-        memset(NCard,0,sizeof(Card));		//Çå¿ÕÖ®Ç°Ö¸Õë±£´æµÄĞÅÏ¢
-        if (fread(NCard,sizeof(Card),1,fp)==1) 
+        memset(NCard, 0, sizeof(Card)); //æ¸…ç©ºä¹‹å‰æŒ‡é’ˆä¿å­˜çš„ä¿¡æ¯
+        if (fread(NCard, sizeof(Card), 1, fp) == 1)
         {
             Index++;
         }
@@ -90,28 +91,28 @@ int getCardCount(const char *Path)
     return Index;
 }
 
-int updataCard(const Card *pCard,const char *pPath,int nIndex)
+int updataCard(const Card *pCard, const char *pPath, int nIndex)
 {
     FILE *fp = NULL;
-    Card *NCard=new Card;
-    int nLine=0;	//ÎÄ¼şĞĞÊı
-    long lPosition = 0;		//ÎÄ¼şÎ»ÖÃ±êÊ¶
-    fp = fopen(pPath ,"rb+");
-    if (fp==NULL) 
+    Card *NCard = new Card;
+    int nLine = 0;      //æ–‡ä»¶è¡Œæ•°
+    long lPosition = 0; //æ–‡ä»¶ä½ç½®æ ‡ç¤º
+    fp = fopen(pPath, "rb+");
+    if (fp == NULL)
     {
         return FALSE;
     }
-    while ( (!feof(fp)) && (nLine<nIndex))
+    while ((!feof(fp)) && (nLine < nIndex))
     {
-        memset(NCard,0,sizeof(Card));		//Çå¿ÕÖ®Ç°Ö¸Õë±£´æµÄĞÅÏ¢
-        if (fread(NCard,sizeof(Card),1,fp)==1) 
+        memset(NCard, 0, sizeof(Card)); //æ¸…ç©ºä¹‹å‰æŒ‡é’ˆä¿å­˜çš„ä¿¡æ¯
+        if (fread(NCard, sizeof(Card), 1, fp) == 1)
         {
-            lPosition=ftell(fp);		//ÓÃftellº¯Êı±£´æÎÄ¼şÖĞÖ¸Õëµ±Ç°Î»ÖÃ
+            lPosition = ftell(fp); //ç”¨ftellå‡½æ•°ä¿å­˜æ–‡ä»¶ä¸­æŒ‡é’ˆå½“å‰ä½ç½®
             nLine++;
         }
     }
-    fseek(fp, lPosition, 0);	//ÒÆ¶¯µ½ÎÄ¼ş±êÊ¶Î»ÖÃ
-    fwrite(pCard, sizeof(Card),1,fp);
+    fseek(fp, lPosition, 0); //ç§»åŠ¨åˆ°æ–‡ä»¶æ ‡è¯†ä½ç½®
+    fwrite(pCard, sizeof(Card), 1, fp);
     delete NCard;
     fclose(fp);
     return TRUE;

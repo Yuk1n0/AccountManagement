@@ -1,4 +1,4 @@
 #ifndef MONEY_FILE_H
 #define MONEY_FILE_H
-int saveMoney(const Money* pMoney ,const char * pPath);
+int saveMoney(const Money *pMoney, const char *pPath);
 #endif

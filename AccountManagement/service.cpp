@@ -1,17 +1,19 @@
-#include<iostream>
-#include<stdio.h>
-#include"model.h"
-#include"global.h"
-#include"card_sevice.h"
-#include"billing_service.h"
-#include"card_file.h"
-#include"billing_file.h"
-#include"money_file.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "model.h"
+#include "global.h"
+#include "card_sevice.h"
+#include "billing_service.h"
+#include "card_file.h"
+#include "billing_file.h"
+#include "money_file.h"
 using namespace std;
 
 float getAmount(time_t tStart);
 //查询同名卡
-int findName(const char* pName)
+int findName(const char *pName)
 {
     return FindCardName(pName, CARDPATH);
 }
@@ -21,23 +23,23 @@ int addCardinfo(Card card)
     return addCard(card);
 }
 
-Card* queryCardinfo(const char* pName)
+Card *queryCardinfo(const char *pName)
 {
-    Card* pCard = NULL;
+    Card *pCard = NULL;
     pCard = queryCard(pName);
     return pCard;
 }
 
-Card* queryCardsinfo(const char* pName, int& nIndex)
+Card *queryCardsinfo(const char *pName, int &nIndex)
 {
-    Card* pCard = NULL;
+    Card *pCard = NULL;
     pCard = queryCards(pName, nIndex);
     return pCard;
 }
 
-int dologon(const char* pName, const char* aPwd, LogonInfo* pLogonInfo)
+int dologon(const char *pName, const char *aPwd, LogonInfo *pLogonInfo)
 {
-    Card* CardData = NULL;
+    Card *CardData = NULL;
     int nIndex = 0;
     CardData = checkCard(pName, aPwd, nIndex);
     if (CardData != NULL)
@@ -74,12 +76,12 @@ int dologon(const char* pName, const char* aPwd, LogonInfo* pLogonInfo)
     return FALSE;
 }
 
-int doSettle(const char* pName, const char* aPwd, SettleInfo* pInfo)
+int doSettle(const char *pName, const char *aPwd, SettleInfo *pInfo)
 {
-    Card* CardData = NULL;
+    Card *CardData = NULL;
     int ncardIndex = 0;
     CardData = checkCard(pName, aPwd, ncardIndex);
-    Billing* BillingData;
+    Billing *BillingData;
     int nbillingIndex = 0;
     BillingData = checkBilling(pName, nbillingIndex);
     if ((CardData != NULL) && (BillingData != NULL))
@@ -143,12 +145,12 @@ void releaseList()
     releaseBillingList();
 }
 
-int doAddMoney(const char* pName, const char* aPwd, MoneyInfo* pMoneyInfo)
+int doAddMoney(const char *pName, const char *aPwd, MoneyInfo *pMoneyInfo)
 {
-    Card* CardData = NULL;
-    int ncardIndex = 0;	//保存卡信息索引号
+    Card *CardData = NULL;
+    int ncardIndex = 0; //保存卡信息索引号
     CardData = checkCard(pName, aPwd, ncardIndex);
-    if (CardData != NULL) 
+    if (CardData != NULL)
     {
         if (CardData->nStatus > 1)
         {
@@ -175,10 +177,10 @@ int doAddMoney(const char* pName, const char* aPwd, MoneyInfo* pMoneyInfo)
     return FALSE;
 }
 
-int doRefundMoney(const char* pName, const char* aPwd, MoneyInfo* pMoneyInfo)
+int doRefundMoney(const char *pName, const char *aPwd, MoneyInfo *pMoneyInfo)
 {
-    Card* CardData = NULL;
-    int ncardIndex = 0;	//保存卡信息索引号
+    Card *CardData = NULL;
+    int ncardIndex = 0; //保存卡信息索引号
     CardData = checkCard(pName, aPwd, ncardIndex);
     if (CardData != NULL)
     {
@@ -212,4 +214,4 @@ int doRefundMoney(const char* pName, const char* aPwd, MoneyInfo* pMoneyInfo)
     return FALSE;
 }
 
-extern IpCardNode cardList;		//卡信息链表头结点外部说明
+extern IpCardNode cardList; //卡信息链表头结点外部说明

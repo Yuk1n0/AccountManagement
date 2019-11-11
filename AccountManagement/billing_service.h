@@ -1,9 +1,9 @@
 #ifndef BILLING_SERVICE_H
 #define BILLING_SERVICE_H
-#include"model.h"
+#include "model.h"
 int addBilling(Billing billing);
 int initBillingList();
 void releaseBillingList();
 int getBilling();
-Billing* checkBilling(const char *pName,int &nIndex);
+Billing *checkBilling(const char *pName, int &nIndex);
 #endif

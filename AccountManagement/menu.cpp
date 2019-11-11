@@ -1,245 +1,272 @@
-#include<iostream>
-#include<stdio.h>
-#include<string.h>
-#include<time.h>
-#include"model.h"
-#include"service.h"
-#include"tools.h"
-#include"global.h"
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include "model.h"
+#include "service.h"
+#include "tools.h"
+#include "global.h"
 using namespace std;
 
-extern IpCardNode cardList;		//¶ÔÈ«¾Ö¿¨ĞÅÏ¢Á´±íÍ·Ö¸Õë½øĞĞÍâ²¿ËµÃ÷
+extern IpCardNode cardList; //å¯¹å…¨å±€å¡ä¿¡æ¯é“¾è¡¨å¤´æŒ‡é’ˆè¿›è¡Œå¤–éƒ¨è¯´æ˜
 
 void outputmeun()
 {
-    cout<<"--------²Ëµ¥--------"<<endl;
-    cout<<"1.Ìí¼Ó¿¨\n";
-    cout<<"2.²éÑ¯¿¨\n";
-    cout<<"3.ÉÏ»ú\n";
-    cout<<"4.ÏÂ»ú\n";
-    cout<<"5.³äÖµ\n";
-    cout<<"6.ÍË·Ñ\n";
-    cout<<"7.²éÑ¯Í³¼Æ\n";
-    cout<<"8.×¢Ïú¿¨\n";
-    cout<<"0.ÍË³ö\n";
-    cout<<"ÇëÑ¡Ôñ²Ëµ¥Ïî±àºÅ (0-8):";
+    cout << "--------èœå•--------" << endl;
+    cout << "1.æ·»åŠ å¡\n";
+    cout << "2.æŸ¥è¯¢å¡\n";
+    cout << "3.ä¸Šæœº\n";
+    cout << "4.ä¸‹æœº\n";
+    cout << "5.å……å€¼\n";
+    cout << "6.é€€è´¹\n";
+    cout << "7.æŸ¥è¯¢ç»Ÿè®¡\n";
+    cout << "8.æ³¨é”€å¡\n";
+    cout << "0.é€€å‡º\n";
+    cout << "è¯·é€‰æ‹©èœå•é¡¹ç¼–å· (0-8):";
 }
 
-//Ìí¼Ó¿¨²Ëµ¥²Ù×÷º¯Êı
+//æ·»åŠ å¡èœå•æ“ä½œå‡½æ•°
 void add()
 {
-    printf("\n-----------Ìí¼Ó¿¨-----------\n");
+    printf("\n-----------æ·»åŠ å¡-----------\n");
     Card card;
-    char aName[32]={0},aPwd[16]={0};
-    char status[20]={0};
-    cout<<"ÇëÊäÈë¿¨ºÅ£¨18Î»ÒÔÄÚ£©£º";
-    scanf("%s",aName);
-    cout<<"ÇëÊäÈëÃÜÂë£¨8Î»ÒÔÏÂ£©£º";
-    scanf("%s",aPwd);
-    if (strlen(aName)>18 ||strlen(aPwd)>8)
+    char aName[32] = {0}, aPwd[16] = {0};
+    char status[20] = {0};
+    cout << "è¯·è¾“å…¥å¡å·ï¼ˆ18ä½ä»¥å†…ï¼‰ï¼š";
+    scanf("%s", aName);
+    cout << "è¯·è¾“å…¥å¯†ç ï¼ˆ8ä½ä»¥ä¸‹ï¼‰ï¼š";
+    scanf("%s", aPwd);
+    if (strlen(aName) > 18 || strlen(aPwd) > 8)
     {
-        cout<<"ÊäÈëµÄ¿¨ºÅ»òÃÜÂë²»·ûºÏ¹æ¶¨,Ìí¼ÓÊ§°Ü¡£";
-        return ;
+        cout << "è¾“å…¥çš„å¡å·æˆ–å¯†ç ä¸ç¬¦åˆè§„å®š,æ·»åŠ å¤±è´¥ã€‚";
+        return;
     }
-    strcpy(card.aName,aName);
-    strcpy(card.aPwd,aPwd);
-    //²éÑ¯ÊÇ·ñÒÑ´æÔÚÍ¬Ãû¿¨ µ÷ÓÃfindcardname
+    strcpy(card.aName, aName);
+    strcpy(card.aPwd, aPwd);
+    //æŸ¥è¯¢æ˜¯å¦å·²å­˜åœ¨åŒåå¡ è°ƒç”¨findcardname
     if (findName(card.aName))
     {
-        cout<<"\nÍ¬Ãû¿¨ÒÑ´æÔÚ,Ìí¼ÓÊ§°Ü¡£";
-        return ;
+        cout << "\nåŒåå¡å·²å­˜åœ¨,æ·»åŠ å¤±è´¥ã€‚";
+        return;
     }
-    //³õÊ¼»¯¿¨ĞÅÏ¢
-    cout<<"ÇëÊäÈë¿ª¿¨½ğ¶î: ";
-    scanf("%f",&card.nBalance);
+    //åˆå§‹åŒ–å¡ä¿¡æ¯
+    cout << "è¯·è¾“å…¥å¼€å¡é‡‘é¢: ";
+    scanf("%f", &card.nBalance);
     card.fTotalUse = card.nBalance;
-    card.nDel=0;
-    card.nUseCount=0;
-    card.nStatus=0;
-    card.tStart=card.tLastTime=card.tEnd=time(NULL);
-    struct tm *starttime=localtime(&card.tStart);
-    struct tm *endtime=localtime(&card.tEnd);
-    endtime->tm_year=starttime->tm_year+1;
-    card.tEnd=mktime(endtime);
+    card.nDel = 0;
+    card.nUseCount = 0;
+    card.nStatus = 0;
+    card.tStart = card.tLastTime = card.tEnd = time(NULL);
+    struct tm *starttime = localtime(&card.tStart);
+    struct tm *endtime = localtime(&card.tEnd);
+    endtime->tm_year = starttime->tm_year + 1;
+    card.tEnd = mktime(endtime);
     InitcardListinfo();
     addCardinfo(card);
-    statusInttoChar(card.nStatus,status);
-    cout<<"\n----Ìí¼ÓµÄ¿¨ĞÅÏ¢ÈçÏÂ----\n¿¨ºÅ\tÃÜÂë\t×´Ì¬\t\t¿ª¿¨½ğ¶î\n"<<card.aName<<"\t"<<card.aPwd<<"\t"<<status<<"\t"<<card.nBalance;
+    statusInttoChar(card.nStatus, status);
+    cout << "\n----æ·»åŠ çš„å¡ä¿¡æ¯å¦‚ä¸‹----\nå¡å·\tå¯†ç \tçŠ¶æ€\t\tå¼€å¡é‡‘é¢\n"
+         << card.aName << "\t" << card.aPwd << "\t" << status << "\t" << card.nBalance;
 }
 
-//²éÑ¯¿¨²Ëµ¥²Ù×÷º¯Êı
-void query(){
-    char aName[18]={0};
-    char aTime[20]={0};
-    char status[20]={0};
-    Card* pCard=NULL;
-    int nIndex=0;
-    cout<<"\n-----------²éÑ¯-----------\nÇëÊäÈë²éÑ¯¿¨ºÅ£º ";
-    bool cZ=false;
+//æŸ¥è¯¢å¡èœå•æ“ä½œå‡½æ•°
+void query()
+{
+    char aName[18] = {0};
+    char aTime[20] = {0};
+    char status[20] = {0};
+    Card *pCard = NULL;
+    int nIndex = 0;
+    cout << "\n-----------æŸ¥è¯¢-----------\nè¯·è¾“å…¥æŸ¥è¯¢å¡å·ï¼š ";
+    bool cZ = false;
     do
     {
-        cZ=false;
-        cin>>aName;
-        pCard=queryCardsinfo(aName,nIndex);		//Í¨¹ı¿¨ÃûÄ£ºı²éÕÒËùÓĞ¿¨ĞÅÏ¢£¬±£´æÖÁÁ´±íÍ·
-        if (pCard==NULL||nIndex==0) 
+        cZ = false;
+        cin >> aName;
+        pCard = queryCardsinfo(aName, nIndex); //é€šè¿‡å¡åæ¨¡ç³ŠæŸ¥æ‰¾æ‰€æœ‰å¡ä¿¡æ¯ï¼Œä¿å­˜è‡³é“¾è¡¨å¤´
+        if (pCard == NULL || nIndex == 0)
         {
-            cZ=true;cout<<"\n²éÕÒÊ§°Ü£¬ÎŞ¶ÔÓ¦¿¨ºÅ£¬ÇëÖØĞÂÊäÈë²éÑ¯¿¨ºÅ: ";
+            cZ = true;
+            cout << "\næŸ¥æ‰¾å¤±è´¥ï¼Œæ— å¯¹åº”å¡å·ï¼Œè¯·é‡æ–°è¾“å…¥æŸ¥è¯¢å¡å·: ";
         }
-    }while (cZ);
-    cout<<"\nÄúËù²éÑ¯µÄËùÓĞ¿¨ĞÅÏ¢Îª:";
-    for (int i=0;i<nIndex;i++)
+    } while (cZ);
+    cout << "\næ‚¨æ‰€æŸ¥è¯¢çš„æ‰€æœ‰å¡ä¿¡æ¯ä¸º:";
+    for (int i = 0; i < nIndex; i++)
     {
-        timeToString(pCard[i].tLastTime,aTime);
-        statusInttoChar(pCard[i].nStatus,status);
-        cout<<"\n¿¨ºÅ\t×´Ì¬\t\tÓà¶î\tÀÛ¼ÆÊ¹ÓÃ\tÊ¹ÓÃ´ÎÊı\tÉÏ´ÎÊ¹ÓÃÊ±¼ä\n";
-        cout<<pCard[i].aName<<"\t"<<status<<"\t"<<pCard[i].nBalance<<"\t"<<pCard[i].fTotalUse<<"\t\t"<<pCard[i].nUseCount<<"\t\t"<<aTime;
-    }		
+        timeToString(pCard[i].tLastTime, aTime);
+        statusInttoChar(pCard[i].nStatus, status);
+        cout << "\nå¡å·\tçŠ¶æ€\t\tä½™é¢\tç´¯è®¡ä½¿ç”¨\tä½¿ç”¨æ¬¡æ•°\tä¸Šæ¬¡ä½¿ç”¨æ—¶é—´\n";
+        cout << pCard[i].aName << "\t" << status << "\t" << pCard[i].nBalance << "\t" << pCard[i].fTotalUse << "\t\t" << pCard[i].nUseCount << "\t\t" << aTime;
+    }
 }
 
 void logon()
 {
-    cout<<"----------ÉÏ»ú---------\n";
-    char aName[32]={0},aPwd[16]={0},aTime[20]={0};
-    cout<<"ÇëÊäÈë¿¨ºÅ£¨18Î»ÒÔÄÚ£©£º";
-    scanf("%s",aName);
-    cout<<"ÇëÊäÈëÃÜÂë£¨8Î»ÒÔÏÂ£©£º";
-    scanf("%s",aPwd);
-    while (strlen(aName)>18 ||strlen(aPwd)>8)
+    cout << "----------ä¸Šæœº---------\n";
+    char aName[32] = {0}, aPwd[16] = {0}, aTime[20] = {0};
+    cout << "è¯·è¾“å…¥å¡å·ï¼ˆ18ä½ä»¥å†…ï¼‰ï¼š";
+    scanf("%s", aName);
+    cout << "è¯·è¾“å…¥å¯†ç ï¼ˆ8ä½ä»¥ä¸‹ï¼‰ï¼š";
+    scanf("%s", aPwd);
+    while (strlen(aName) > 18 || strlen(aPwd) > 8)
     {
-        cout<<"ÊäÈëµÄ¿¨ºÅ»òÃÜÂë²»·ûºÏ¹æ¶¨¡£";
-        cout<<"ÇëÖØĞÂÊäÈë¿¨ºÅ£º";
-        scanf("%s",aName);
-        cout<<"ÇëÖØĞÂÊäÈëÃÜÂë£º";
-        scanf("%s",aPwd);
+        cout << "è¾“å…¥çš„å¡å·æˆ–å¯†ç ä¸ç¬¦åˆè§„å®šã€‚";
+        cout << "è¯·é‡æ–°è¾“å…¥å¡å·ï¼š";
+        scanf("%s", aName);
+        cout << "è¯·é‡æ–°è¾“å…¥å¯†ç ï¼š";
+        scanf("%s", aPwd);
     }
     int result;
     LogonInfo pLogonInfo;
-    result= dologon(aName,aPwd,&pLogonInfo);
-    switch(result)
+    result = dologon(aName, aPwd, &pLogonInfo);
+    switch (result)
     {
-        case 1: 
-        {
-            //Ê±¼äĞÎÊ½×ª»»
-            timeToString(pLogonInfo.tLogon,aTime);
-            cout<<"\n----------ÉÏ»úĞÅÏ¢ÈçÏÂ---------";
-            cout<<"\n¿¨ºÅ\tÓà¶î\tÉÏ»úÊ±¼ä\n";
-            cout<<pLogonInfo.aCardName<<"\t"<<pLogonInfo.fBalance<<"\t"<<aTime;
-            break;
-        }
-        case 2:	cout<<"¿¨×´Ì¬´íÎó£¬ÉÏ»úÊ§°Ü";break;
-        case 3:	cout<<"Óà¶î²»×ã£¬ÉÏ»úÊ§°Ü";break;
-        default :cout<<"²éÑ¯ĞÅÏ¢ÓĞÎó,ÉÏ»úÊ§°Ü";break;
+    case 1:
+    {
+        //æ—¶é—´å½¢å¼è½¬æ¢
+        timeToString(pLogonInfo.tLogon, aTime);
+        cout << "\n----------ä¸Šæœºä¿¡æ¯å¦‚ä¸‹---------";
+        cout << "\nå¡å·\tä½™é¢\tä¸Šæœºæ—¶é—´\n";
+        cout << pLogonInfo.aCardName << "\t" << pLogonInfo.fBalance << "\t" << aTime;
+        break;
+    }
+    case 2:
+        cout << "å¡çŠ¶æ€é”™è¯¯ï¼Œä¸Šæœºå¤±è´¥";
+        break;
+    case 3:
+        cout << "ä½™é¢ä¸è¶³ï¼Œä¸Šæœºå¤±è´¥";
+        break;
+    default:
+        cout << "æŸ¥è¯¢ä¿¡æ¯æœ‰è¯¯,ä¸Šæœºå¤±è´¥";
+        break;
     }
 }
 
 void settle()
 {
-    cout<<"----------ÏÂ»ú---------\n";
-    char aName[32]={0},aPwd[16]={0},aTime1[20]={0},aTime2[20]={0};
-    cout<<"ÇëÊäÈëÏÂ»ú¿¨ºÅ£¨18Î»ÒÔÄÚ£©£º";
-    scanf("%s",aName);
-    cout<<"ÇëÊäÈëÃÜÂë£¨8Î»ÒÔÏÂ£©£º";
-    scanf("%s",aPwd);
-    while (strlen(aName)>18 ||strlen(aPwd)>8)
+    cout << "----------ä¸‹æœº---------\n";
+    char aName[32] = {0}, aPwd[16] = {0}, aTime1[20] = {0}, aTime2[20] = {0};
+    cout << "è¯·è¾“å…¥ä¸‹æœºå¡å·ï¼ˆ18ä½ä»¥å†…ï¼‰ï¼š";
+    scanf("%s", aName);
+    cout << "è¯·è¾“å…¥å¯†ç ï¼ˆ8ä½ä»¥ä¸‹ï¼‰ï¼š";
+    scanf("%s", aPwd);
+    while (strlen(aName) > 18 || strlen(aPwd) > 8)
     {
-        cout<<"ÊäÈëµÄ¿¨ºÅ»òÃÜÂë²»·ûºÏ¹æ¶¨¡£";
-        cout<<"ÇëÖØĞÂÊäÈë¿¨ºÅ£º";
-        scanf("%s",aName);
-        cout<<"ÇëÖØĞÂÊäÈëÃÜÂë£º";
-        scanf("%s",aPwd);
+        cout << "è¾“å…¥çš„å¡å·æˆ–å¯†ç ä¸ç¬¦åˆè§„å®šã€‚";
+        cout << "è¯·é‡æ–°è¾“å…¥å¡å·ï¼š";
+        scanf("%s", aName);
+        cout << "è¯·é‡æ–°è¾“å…¥å¯†ç ï¼š";
+        scanf("%s", aPwd);
     }
     int result;
     SettleInfo pSettleInfo;
-    result=doSettle(aName,aPwd,&pSettleInfo);
+    result = doSettle(aName, aPwd, &pSettleInfo);
     switch (result)
     {
-        case 1: 
-        {
-            timeToString(pSettleInfo.tStart,aTime1);
-            timeToString(pSettleInfo.tEnd,aTime2);
-            cout<<"\n----------ÏÂ»úĞÅÏ¢ÈçÏÂ---------";
-            cout<<"\n¿¨ºÅ\tÏû·Ñ½ğ¶î\tÓà¶î\tÉÏ»úÊ±¼ä\t\tÏÂ»úÊ±¼ä\n";
-            cout<<pSettleInfo.aCardName<<"\t"<<pSettleInfo.fAmount<<"\t\t"<<pSettleInfo.fBalance<<"\t"<<aTime1<<"\t"<<aTime2;
-            break;
-        }
-        case 2:	cout<<"¿¨×´Ì¬´íÎó£¬ÏÂ»úÊ§°Ü";break;
-        case 3:	cout<<"Óà¶î²»×ã£¬ÏÂ»úÊ§°Ü";break;
-        default :cout<<"²éÑ¯ĞÅÏ¢ÓĞÎó,ÏÂ»úÊ§°Ü";break;
+    case 1:
+    {
+        timeToString(pSettleInfo.tStart, aTime1);
+        timeToString(pSettleInfo.tEnd, aTime2);
+        cout << "\n----------ä¸‹æœºä¿¡æ¯å¦‚ä¸‹---------";
+        cout << "\nå¡å·\tæ¶ˆè´¹é‡‘é¢\tä½™é¢\tä¸Šæœºæ—¶é—´\t\tä¸‹æœºæ—¶é—´\n";
+        cout << pSettleInfo.aCardName << "\t" << pSettleInfo.fAmount << "\t\t" << pSettleInfo.fBalance << "\t" << aTime1 << "\t" << aTime2;
+        break;
+    }
+    case 2:
+        cout << "å¡çŠ¶æ€é”™è¯¯ï¼Œä¸‹æœºå¤±è´¥";
+        break;
+    case 3:
+        cout << "ä½™é¢ä¸è¶³ï¼Œä¸‹æœºå¤±è´¥";
+        break;
+    default:
+        cout << "æŸ¥è¯¢ä¿¡æ¯æœ‰è¯¯,ä¸‹æœºå¤±è´¥";
+        break;
     }
 }
 
 void addMoney()
 {
-    cout<<"----------³äÖµ---------\n";
-    char aName[32]={0},aPwd[16]={0};
-    cout<<"ÇëÊäÈë³äÖµ¿¨ºÅ£¨18Î»ÒÔÄÚ£©£º";
-    scanf("%s",aName);
-    cout<<"ÇëÊäÈëÃÜÂë£¨8Î»ÒÔÏÂ£©£º";
-    scanf("%s",aPwd);
-    while (strlen(aName)>18 ||strlen(aPwd)>8)
+    cout << "----------å……å€¼---------\n";
+    char aName[32] = {0}, aPwd[16] = {0};
+    cout << "è¯·è¾“å…¥å……å€¼å¡å·ï¼ˆ18ä½ä»¥å†…ï¼‰ï¼š";
+    scanf("%s", aName);
+    cout << "è¯·è¾“å…¥å¯†ç ï¼ˆ8ä½ä»¥ä¸‹ï¼‰ï¼š";
+    scanf("%s", aPwd);
+    while (strlen(aName) > 18 || strlen(aPwd) > 8)
     {
-        cout<<"ÊäÈëµÄ¿¨ºÅ»òÃÜÂë²»·ûºÏ¹æ¶¨¡£";
-        cout<<"ÇëÖØĞÂÊäÈë¿¨ºÅ£º";
-        scanf("%s",aName);
-        cout<<"ÇëÖØĞÂÊäÈëÃÜÂë£º";
-        scanf("%s",aPwd);
+        cout << "è¾“å…¥çš„å¡å·æˆ–å¯†ç ä¸ç¬¦åˆè§„å®šã€‚";
+        cout << "è¯·é‡æ–°è¾“å…¥å¡å·ï¼š";
+        scanf("%s", aName);
+        cout << "è¯·é‡æ–°è¾“å…¥å¯†ç ï¼š";
+        scanf("%s", aPwd);
     }
-    cout<<"ÇëÊäÈë³äÖµ½ğ¶î£º";
+    cout << "è¯·è¾“å…¥å……å€¼é‡‘é¢ï¼š";
     int result;
     MoneyInfo pMoneyInfo;
-    cin>>pMoneyInfo.money;
-    result=doAddMoney(aName,aPwd,&pMoneyInfo);
-    switch(result)
+    cin >> pMoneyInfo.money;
+    result = doAddMoney(aName, aPwd, &pMoneyInfo);
+    switch (result)
     {
-        case 1: 
-        {
-            cout<<"\n----------³äÖµĞÅÏ¢ÈçÏÂ---------";
-            cout<<"\n¿¨ºÅ\t³äÖµ½ğ¶î\tÓà¶î\n";
-            cout<<pMoneyInfo.aCardName<<"\t"<<pMoneyInfo.money<<"\t\t"<<pMoneyInfo.fBalance;
-            break;
-        }
-        case 2:	cout<<"¿¨×´Ì¬´íÎó£¬³äÖµÊ§°Ü";break;
-        case 3:	cout<<"Óà¶î²»×ã£¬³äÖµÊ§°Ü";break;
-        default :cout<<"²éÑ¯ĞÅÏ¢ÓĞÎó,³äÖµÊ§°Ü";break;
+    case 1:
+    {
+        cout << "\n----------å……å€¼ä¿¡æ¯å¦‚ä¸‹---------";
+        cout << "\nå¡å·\tå……å€¼é‡‘é¢\tä½™é¢\n";
+        cout << pMoneyInfo.aCardName << "\t" << pMoneyInfo.money << "\t\t" << pMoneyInfo.fBalance;
+        break;
+    }
+    case 2:
+        cout << "å¡çŠ¶æ€é”™è¯¯ï¼Œå……å€¼å¤±è´¥";
+        break;
+    case 3:
+        cout << "ä½™é¢ä¸è¶³ï¼Œå……å€¼å¤±è´¥";
+        break;
+    default:
+        cout << "æŸ¥è¯¢ä¿¡æ¯æœ‰è¯¯,å……å€¼å¤±è´¥";
+        break;
     }
 }
 
 void refundMoney()
 {
-    cout<<"----------ÍË·Ñ---------\n";
-    char aName[32]={0},aPwd[16]={0};
-    cout<<"ÇëÊäÈëÍË·Ñ¿¨ºÅ£¨18Î»ÒÔÄÚ£©:";
-    scanf("%s",aName);
-    cout<<"ÇëÊäÈëÃÜÂë£¨8Î»ÒÔÏÂ£©:";
-    scanf("%s",aPwd);
-    while (strlen(aName)>18 ||strlen(aPwd)>8)
+    cout << "----------é€€è´¹---------\n";
+    char aName[32] = {0}, aPwd[16] = {0};
+    cout << "è¯·è¾“å…¥é€€è´¹å¡å·ï¼ˆ18ä½ä»¥å†…ï¼‰:";
+    scanf("%s", aName);
+    cout << "è¯·è¾“å…¥å¯†ç ï¼ˆ8ä½ä»¥ä¸‹ï¼‰:";
+    scanf("%s", aPwd);
+    while (strlen(aName) > 18 || strlen(aPwd) > 8)
     {
-        cout<<"ÊäÈëµÄ¿¨ºÅ»òÃÜÂë²»·ûºÏ¹æ¶¨¡£";
-        cout<<"ÇëÖØĞÂÊäÈë¿¨ºÅ£º";
-        scanf("%s",aName);
-        cout<<"ÇëÖØĞÂÊäÈëÃÜÂë£º";
-        scanf("%s",aPwd);
+        cout << "è¾“å…¥çš„å¡å·æˆ–å¯†ç ä¸ç¬¦åˆè§„å®šã€‚";
+        cout << "è¯·é‡æ–°è¾“å…¥å¡å·ï¼š";
+        scanf("%s", aName);
+        cout << "è¯·é‡æ–°è¾“å…¥å¯†ç ï¼š";
+        scanf("%s", aPwd);
     }
     int result;
     MoneyInfo pMoneyInfo;
-    result=doRefundMoney(aName,aPwd,&pMoneyInfo);
-    switch(result)
+    result = doRefundMoney(aName, aPwd, &pMoneyInfo);
+    switch (result)
     {
-        case 1: 
-        {
-            cout<<"\n----------ÍË·ÑĞÅÏ¢ÈçÏÂ---------";
-            cout<<"\n¿¨ºÅ\tÍË·Ñ½ğ¶î\tÓà¶î\n";
-            cout<<pMoneyInfo.aCardName<<"\t"<<pMoneyInfo.money<<"\t\t"<<pMoneyInfo.fBalance;
-            break;
-        }
-        case 2:	cout<<"¿¨×´Ì¬´íÎó£¬ÍË·ÑÊ§°Ü";break;
-        case 3:	cout<<"Óà¶î²»×ã£¬ÍË·ÑÊ§°Ü";break;
-        default:cout<<"²éÑ¯ĞÅÏ¢ÓĞÎó,ÍË·ÑÊ§°Ü";break;
+    case 1:
+    {
+        cout << "\n----------é€€è´¹ä¿¡æ¯å¦‚ä¸‹---------";
+        cout << "\nå¡å·\té€€è´¹é‡‘é¢\tä½™é¢\n";
+        cout << pMoneyInfo.aCardName << "\t" << pMoneyInfo.money << "\t\t" << pMoneyInfo.fBalance;
+        break;
+    }
+    case 2:
+        cout << "å¡çŠ¶æ€é”™è¯¯ï¼Œé€€è´¹å¤±è´¥";
+        break;
+    case 3:
+        cout << "ä½™é¢ä¸è¶³ï¼Œé€€è´¹å¤±è´¥";
+        break;
+    default:
+        cout << "æŸ¥è¯¢ä¿¡æ¯æœ‰è¯¯,é€€è´¹å¤±è´¥";
+        break;
     }
 }
 
 void Quit()
 {
-    printf("---------ÍË³ö--------");
+    printf("---------é€€å‡º--------");
     releaseList();
 }

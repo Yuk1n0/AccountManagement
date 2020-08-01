@@ -1,5 +1,6 @@
 #ifndef SERVICE_H
 #define SERVICE_H
+#include "model.h"
 int findName(const char *pName);
 void releaseList();
 bool InitcardListinfo();

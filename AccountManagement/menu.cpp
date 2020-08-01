@@ -1,11 +1,11 @@
 #include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include "global.h"
 #include "model.h"
 #include "service.h"
 #include "tools.h"
-#include "global.h"
 using namespace std;
 
 extern IpCardNode cardList; //对全局卡信息链表头指针进行外部说明

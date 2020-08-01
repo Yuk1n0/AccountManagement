@@ -1,11 +1,11 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "model.h"
-#include "global.h"
-#include "tools.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "billing_file.h"
+#include "global.h"
+#include "model.h"
+#include "tools.h"
 using namespace std;
 
 IpBillingNode BillingList = NULL; //全局定义消费信息链表保存所有消费信息

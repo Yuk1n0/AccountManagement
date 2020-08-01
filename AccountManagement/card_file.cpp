@@ -1,10 +1,11 @@
 #include <iostream>
-#include "model.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "global.h"
-#include <stdio.h>
+#include "model.h"
 #include "tools.h"
-#include <string.h>
-#include <stdlib.h>
+using namespace std;
 
 int saveCard(const Card *pCard, const char *pPath)
 {

@@ -1,17 +1,18 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "model.h"
-#include "global.h"
-#include "card_sevice.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "billing_file.h"
 #include "billing_service.h"
 #include "card_file.h"
-#include "billing_file.h"
+#include "card_sevice.h"
+#include "global.h"
+#include "model.h"
 #include "money_file.h"
 using namespace std;
 
 float getAmount(time_t tStart);
+
 //查询同名卡
 int findName(const char *pName)
 {

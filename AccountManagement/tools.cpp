@@ -1,7 +1,6 @@
-#include <cstdio>
-#include <cstring>
-#include <ctime>
-using namespace std;
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
 
 void timeToString(time_t t, char *pBuf) //将年月日时分转换成时间字符的形式
 {

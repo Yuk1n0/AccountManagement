@@ -1,11 +1,9 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "global.h"
 #include "model.h"
 #include "tools.h"
-using namespace std;
 
 int saveBilling(const Billing *pBilling, const char *pPath)
 {
@@ -55,6 +53,10 @@ int readBilling(Billing *pBilling, const char *pPath) //从文件中读取消费
     Billing *NBilling = new Billing;
     FILE *fp = NULL;
     fp = fopen(pPath, "rb");
+    if (fp == NULL)
+    {
+        return FALSE;
+    }
     while (!feof(fp))
     {
         memset(NBilling, 0, sizeof(Billing)); //获取一行之前清空指针中的信息
@@ -76,7 +78,9 @@ int updataBilling(const Billing *pBilling, const char *pPath, int nIndex)
     long lPosition = 0; //文件位置标识
     fp = fopen(pPath, "rb+");
     if (fp == NULL)
+    {
         return FALSE;
+    }
     while ((!feof(fp)) && (nLine < nIndex))
     {
         memset(NBilling, 0, sizeof(Billing)); //清空之前指针保存的信息
@@ -99,7 +103,9 @@ int FindBillingName(const char *pName, const char *pPath) //从文件中寻找�
     Billing *NBilling = new Billing;
     fp = fopen(pPath, "rb");
     if (fp == NULL)
+    {
         return FALSE;
+    }
     while (!feof(fp))
     {
         memset(NBilling, 0, sizeof(Billing)); //获取一行之前清空指针中的信息
@@ -123,7 +129,9 @@ int putBillings(const char *pName, const int a) //根据不同情况输出计费
     FILE *fp = NULL;
     fp = fopen(BILLINGPATH, "rb");
     if (fp == NULL)
+    {
         return FALSE;
+    }
     Billing *pBilling = new Billing;
     char atime[20] = {0};
     int i = 0; //判断查询到的计费信息数量
@@ -141,10 +149,10 @@ int putBillings(const char *pName, const int a) //根据不同情况输出计费
                     i++;
                     if (i == 1)
                     {
-                        cout << "\n卡号\t消费金额\t消费时间\n";
+                        printf("\n卡号\t消费金额\t消费时间\n");
                     }
                     timeToString(pBilling->tStart, atime);
-                    cout << pBilling->aCardName << "\t" << pBilling->fAmount << "\t\t" << atime << "\n";
+                    printf("%s\t%f\t\t%s\n", pBilling->aCardName, pBilling->fAmount, atime);
                 }
             }
         }
@@ -166,10 +174,10 @@ int putBillings(const char *pName, const int a) //根据不同情况输出计费
                     i++;
                     if (i == 1)
                     {
-                        cout << "\n卡号\t消费金额\t消费时间\n";
+                        printf("\n卡号\t消费金额\t消费时间\n");
                     }
                     timeToString(pBilling->tStart, atime);
-                    cout << pBilling->aCardName << "\t" << pBilling->fAmount << "\t\t" << atime << "\n";
+                    printf("%s\t%f\t\t%s\n", pBilling->aCardName, pBilling->fAmount, atime);
                 }
             }
         }
@@ -177,7 +185,7 @@ int putBillings(const char *pName, const int a) //根据不同情况输出计费
 
     if (i == 0)
     {
-        cout << "\n无对应计费信息。\n";
+        printf("\n无对应计费信息。\n");
         fclose(fp);
         delete pBilling;
         return FALSE;
@@ -207,7 +215,7 @@ void staticiseall() //统计总营业额
                 all += pBilling->fAmount;
         }
     }
-    cout << "\n总营业额为： " << all << endl;
+    printf("\n总营业额为： %f\n", all);
     fclose(fp);
     delete pBilling;
 }

@@ -1,12 +1,10 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "billing_file.h"
 #include "global.h"
 #include "model.h"
 #include "tools.h"
-using namespace std;
 
 IpBillingNode BillingList = NULL; //全局定义消费信息链表保存所有消费信息
 int nbillingCount = 0;
@@ -51,7 +49,7 @@ int getBilling()
     //从文件中读取消费信息并添加到暂存指针中
     if (readBilling(pBilling, BILLINGPATH) == 0)
     {
-        cout << "读取失败";
+        printf("读取失败");
         free(pBilling);
         return FALSE;
     }

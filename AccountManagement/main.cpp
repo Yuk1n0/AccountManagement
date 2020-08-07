@@ -1,15 +1,14 @@
-#include <iostream>
+#include <stdio.h>
 #include "menu.h"
-using namespace std;
 
 int main(void)
 {
-    cout << "欢迎进入计费管理系统\n";
+    printf("欢迎进入计费管理系统\n");
     int i = -1; //选项
     do
     {
         outputmeun(); //输出初始菜单
-        cin >> i;
+        scanf("%d", &i);
         switch (i)
         {
         case 1:
@@ -56,9 +55,9 @@ int main(void)
             break;
         }
         default:
-            cout << "输入错误，请重新输入";
+            printf("输入错误，请重新输入");
         }
-        cout << endl;
+        printf("\n");
     } while (i != 0);
     return 0;
 }

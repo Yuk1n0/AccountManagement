@@ -1,9 +1,6 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
+#include <stdio.h>
 #include "global.h"
 #include "model.h"
-using namespace std;
 
 int saveMoney(const Money *pMoney, const char *pPath)
 {

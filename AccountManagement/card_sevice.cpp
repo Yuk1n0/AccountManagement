@@ -1,12 +1,10 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "billing_service.h"
 #include "card_file.h"
 #include "global.h"
 #include "model.h"
-using namespace std;
 
 IpCardNode cardList = NULL; //全局定义卡信息链表保存所有卡信息
 int ncardCount = 0;
@@ -44,7 +42,7 @@ int getCard()
     pCard = (Card *)malloc(sizeof(Card) * ncardCount);
     if (readCard(pCard, CARDPATH) == 0) //从文件中读取卡信息并添加到暂存指针中
     {
-        cout << "读取失败";
+        printf("读取失败");
         free(pCard);
         return FALSE;
     }

@@ -1,11 +1,9 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "global.h"
 #include "model.h"
 #include "tools.h"
-using namespace std;
 
 int saveCard(const Card *pCard, const char *pPath)
 {
@@ -16,7 +14,7 @@ int saveCard(const Card *pCard, const char *pPath)
         fp = fopen(pPath, "wb");
         if (fp == NULL)
         {
-            std::cout << "打开文件失败";
+            printf("打开文件失败");
             return FALSE;
         }
     }
@@ -31,6 +29,10 @@ int readCard(Card *pCard, const char *pPath)
     Card *NCard = new Card;
     FILE *fp = NULL;
     fp = fopen(pPath, "rb");
+    if (fp == NULL)
+    {
+        return FALSE;
+    }
     while (!feof(fp))
     {
         memset(NCard, 0, sizeof(Card)); //获取一行之前清空指针中的信息
@@ -78,7 +80,9 @@ int getCardCount(const char *Path)
     Card *NCard = new Card;
     fp = fopen(Path, "rb");
     if (fp == NULL)
+    {
         return FALSE;
+    }
     while (!feof(fp))
     {
         memset(NCard, 0, sizeof(Card)); //清空之前指针保存的信息

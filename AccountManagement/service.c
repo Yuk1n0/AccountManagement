@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <string.h>
 #include "billing_file.h"
 #include "billing_service.h"
@@ -26,7 +27,7 @@ Card *queryCardinfo(const char *pName)
     return pCard;
 }
 
-Card *queryCardsinfo(const char *pName, int &nIndex)
+Card *queryCardsinfo(const char *pName, int *nIndex)
 {
     Card *pCard = NULL;
     pCard = queryCards(pName, nIndex);
@@ -37,7 +38,8 @@ int dologon(const char *pName, const char *aPwd, LogonInfo *pLogonInfo)
 {
     Card *CardData = NULL;
     int nIndex = 0;
-    CardData = checkCard(pName, aPwd, nIndex);
+    int *pIndex = &nIndex;
+    CardData = checkCard(pName, aPwd, pIndex);
     if (CardData != NULL)
     {
         //未上机的卡才能上机
@@ -76,10 +78,12 @@ int doSettle(const char *pName, const char *aPwd, SettleInfo *pInfo)
 {
     Card *CardData = NULL;
     int ncardIndex = 0;
-    CardData = checkCard(pName, aPwd, ncardIndex);
+    int *pcardIndex = &ncardIndex;
+    CardData = checkCard(pName, aPwd, pcardIndex);
     Billing *BillingData;
     int nbillingIndex = 0;
-    BillingData = checkBilling(pName, nbillingIndex);
+    int *pbillingIndex = &nbillingIndex;
+    BillingData = checkBilling(pName, pbillingIndex);
     if ((CardData != NULL) && (BillingData != NULL))
     {
         if (CardData->nStatus != 1)
@@ -125,9 +129,13 @@ float getAmount(time_t tStart)
     int sec = tEnd - tStart;
     int min = UNIT * 60;
     if (sec % min == 0)
+    {
         return sec / min * CHARGE;
+    }
     else
+    {
         return (sec / min + 1) * CHARGE;
+    }
 }
 
 bool InitcardListinfo()
@@ -145,7 +153,8 @@ int doAddMoney(const char *pName, const char *aPwd, MoneyInfo *pMoneyInfo)
 {
     Card *CardData = NULL;
     int ncardIndex = 0; //保存卡信息索引号
-    CardData = checkCard(pName, aPwd, ncardIndex);
+    int *pcardIndex = &ncardIndex;
+    CardData = checkCard(pName, aPwd, pcardIndex);
     if (CardData != NULL)
     {
         if (CardData->nStatus > 1)
@@ -177,7 +186,8 @@ int doRefundMoney(const char *pName, const char *aPwd, MoneyInfo *pMoneyInfo)
 {
     Card *CardData = NULL;
     int ncardIndex = 0; //保存卡信息索引号
-    CardData = checkCard(pName, aPwd, ncardIndex);
+    int *pcardIndex = &ncardIndex;
+    CardData = checkCard(pName, aPwd, pcardIndex);
     if (CardData != NULL)
     {
         if (CardData->nStatus != 0)

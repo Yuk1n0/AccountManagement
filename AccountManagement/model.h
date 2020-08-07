@@ -21,7 +21,7 @@ typedef struct Card
 typedef struct CardNode
 {
     Card CardData;
-    CardNode *NextNode;
+    struct CardNode *NextNode;
 } CardNode, *IpCardNode;
 
 //消费信息结构体定义
@@ -39,7 +39,7 @@ typedef struct Billling
 typedef struct BillingNode
 {
     Billing BillingData;
-    BillingNode *NextNode;
+    struct BillingNode *NextNode;
 } BillingNode, *IpBillingNode;
 
 //上机信息结构体

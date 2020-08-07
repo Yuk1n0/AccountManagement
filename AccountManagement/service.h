@@ -1,11 +1,12 @@
 #ifndef SERVICE_H
 #define SERVICE_H
+#include <stdbool.h>
 #include "model.h"
 int findName(const char *pName);
 void releaseList();
 bool InitcardListinfo();
 int dologon(const char *pName, const char *aPwd, LogonInfo *pLogonInfo);
-Card *queryCardsinfo(const char *pName, int &nIndex);
+Card *queryCardsinfo(const char *pName, int *nIndex);
 Card *queryCardinfo(const char *pName);
 int doSettle(const char *pName, const char *aPwd, SettleInfo *pInfo);
 int addCardinfo(Card card);

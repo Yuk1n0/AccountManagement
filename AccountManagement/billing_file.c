@@ -35,7 +35,7 @@ int getBillingCount(const char *Path)
         return FALSE;
     }
 
-    Billing *pBilling = new Billing;
+    Billing *pBilling = (Billing *)malloc(sizeof(Billing));
     while (!feof(fp))
     {
         if (fread(pBilling, sizeof(Billing), 1, fp) == 1) //用fread逐条读取文件中的消费记录
@@ -50,7 +50,7 @@ int getBillingCount(const char *Path)
 int readBilling(Billing *pBilling, const char *pPath) //从文件中读取消费记录
 {
     int i = 0;
-    Billing *NBilling = new Billing;
+    Billing *NBilling = (Billing *)malloc(sizeof(Billing));
     FILE *fp = NULL;
     fp = fopen(pPath, "rb");
     if (fp == NULL)
@@ -66,14 +66,14 @@ int readBilling(Billing *pBilling, const char *pPath) //从文件中读取消费
         }
     }
     fclose(fp);
-    delete NBilling;
+    free(NBilling);
     return TRUE;
 }
 
 int updataBilling(const Billing *pBilling, const char *pPath, int nIndex)
 {
     FILE *fp = NULL;
-    Billing *NBilling = new Billing;
+    Billing *NBilling = (Billing *)malloc(sizeof(Billing));
     int nLine = 0;      //文件行数
     long lPosition = 0; //文件位置标识
     fp = fopen(pPath, "rb+");
@@ -93,14 +93,14 @@ int updataBilling(const Billing *pBilling, const char *pPath, int nIndex)
     fseek(fp, lPosition, 0); //移动到文件标识位置
     fwrite(pBilling, sizeof(Billing), 1, fp);
     fclose(fp);
-    delete NBilling;
+    free(NBilling);
     return TRUE;
 }
 
 int FindBillingName(const char *pName, const char *pPath) //从文件中寻找同名计费信息是否存在 存在返回TRUE
 {
     FILE *fp = NULL;
-    Billing *NBilling = new Billing;
+    Billing *NBilling = (Billing *)malloc(sizeof(Billing));
     fp = fopen(pPath, "rb");
     if (fp == NULL)
     {
@@ -114,13 +114,13 @@ int FindBillingName(const char *pName, const char *pPath) //从文件中寻找�
             if (strcmp(pName, NBilling->aCardName) == 0 && NBilling->nStatus == 1)
             {
                 fclose(fp);
-                delete NBilling;
+                free(NBilling);
                 return TRUE;
             }
         }
     }
     fclose(fp);
-    delete NBilling;
+    free(NBilling);
     return FALSE;
 }
 
@@ -132,7 +132,7 @@ int putBillings(const char *pName, const int a) //根据不同情况输出计费
     {
         return FALSE;
     }
-    Billing *pBilling = new Billing;
+    Billing *pBilling = (Billing *)malloc(sizeof(Billing));
     char atime[20] = {0};
     int i = 0; //判断查询到的计费信息数量
 
@@ -161,7 +161,7 @@ int putBillings(const char *pName, const int a) //根据不同情况输出计费
     //如果是时间查询
     else
     {
-        tm *time = NULL;
+        struct tm *time = NULL;
         while (!feof(fp))
         {
             memset(pBilling, 0, sizeof(Billing));
@@ -187,11 +187,11 @@ int putBillings(const char *pName, const int a) //根据不同情况输出计费
     {
         printf("\n无对应计费信息。\n");
         fclose(fp);
-        delete pBilling;
+        free(pBilling);
         return FALSE;
     }
     fclose(fp);
-    delete pBilling;
+    free(pBilling);
     return TRUE;
 }
 
@@ -203,7 +203,7 @@ void staticiseall() //统计总营业额
     {
         return;
     }
-    Billing *pBilling = new Billing;
+    Billing *pBilling = (Billing *)malloc(sizeof(Billing));
     float all = 0.0;
     while (!feof(fp))
     {
@@ -211,11 +211,13 @@ void staticiseall() //统计总营业额
         if (fread(pBilling, sizeof(Billing), 1, fp) == 1)
         {
             if (pBilling->nStatus == 1)
+            {
                 //总额加上消费金额
                 all += pBilling->fAmount;
+            }
         }
     }
     printf("\n总营业额为： %f\n", all);
     fclose(fp);
-    delete pBilling;
+    free(pBilling);
 }

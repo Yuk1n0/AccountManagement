@@ -13,7 +13,7 @@ int initcardList()
 {
     if (!cardList)
     {
-        cardList = new CardNode;
+        cardList = (CardNode *)malloc(sizeof(CardNode));
         cardList->NextNode = NULL;
         return TRUE;
     }
@@ -26,7 +26,7 @@ void releaseCardList()
     while (thisNode != NULL)
     {
         nextNode = thisNode->NextNode;
-        delete thisNode;
+        free(thisNode);
         thisNode = nextNode;
         cardList = NULL;
     }
@@ -50,7 +50,7 @@ int getCard()
     IpCardNode p1 = cardList, p2 = NULL;
     for (; i < ncardCount; i++)
     {
-        p2 = new CardNode;
+        p2 = (CardNode *)malloc(sizeof(CardNode));
         p2->CardData = pCard[i];
         p2->NextNode = NULL;
         p1 = p1->NextNode = p2;
@@ -72,51 +72,54 @@ Card *queryCard(const char *pName)
         for (cardNow = cardList; cardNow != NULL; cardNow = cardNow->NextNode)
         {
             if (strcmp(cardNow->CardData.aName, pName) == 0)
-                return &cardNow->CardData;
-        }
-    }
-    return NULL;
-}
-
-Card *queryCards(const char *pName, int &nIndex)
-{
-    //定义一个新指针来进行查询
-    IpCardNode cardNow = NULL;
-    //一个指针来输出查找的所有卡信息
-    Card *putCards = NULL;
-    //为节点分配一个新空间
-    putCards = new Card;
-    if (getCard() != 0)
-    {
-        for (IpCardNode NOW = cardList; NOW != NULL; NOW = NOW->NextNode)
-        {
-            if (strstr(NOW->CardData.aName, pName) != NULL)
             {
-                putCards[nIndex++] = NOW->CardData;
-                putCards = (Card *)realloc(putCards, sizeof(Card) * (nIndex + 1));
+                return &cardNow->CardData;
             }
         }
-        if (nIndex != 0)
-            return putCards;
-        else
-            free(putCards);
     }
     return NULL;
 }
 
-Card *checkCard(const char *pName, const char *aPwd, int &nIndex)
+Card *queryCards(const char *pName, int *nIndex)
+{
+    Card *putCards = NULL; //一个指针来输出查找的所有卡信息
+    //为节点分配一个新空间
+    putCards = (Card *)malloc(sizeof(Card));
+    if (getCard() != 0)
+    {
+        for (IpCardNode cardNow = cardList; cardNow != NULL; cardNow = cardNow->NextNode)
+        {
+            if (strstr(cardNow->CardData.aName, pName) != NULL)
+            {
+                putCards[(*nIndex)++] = cardNow->CardData;
+                putCards = (Card *)realloc(putCards, sizeof(Card) * ((*nIndex) + 1));
+            }
+        }
+        if (*nIndex != 0)
+        {
+            return putCards;
+        }
+        else
+        {
+            free(putCards);
+        }
+    }
+    return NULL;
+}
+
+Card *checkCard(const char *pName, const char *aPwd, int *nIndex)
 {
     if (getCard() != 0)
     {
         IpCardNode cardNow = NULL;
-        nIndex = 0;
+        *nIndex = 0;
         for (cardNow = cardList->NextNode; cardNow != NULL; cardNow = cardNow->NextNode)
         {
             if ((strcmp(cardNow->CardData.aName, pName) == 0) && (strcmp(cardNow->CardData.aPwd, aPwd) == 0))
             {
                 return &cardNow->CardData;
             }
-            nIndex++;
+            *nIndex = (*nIndex) + 1;
         }
     }
     return NULL;

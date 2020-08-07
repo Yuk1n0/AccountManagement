@@ -71,26 +71,27 @@ void query()
     char status[20] = {0};
     Card *pCard = NULL;
     int nIndex = 0;
+    int *pIndex = &nIndex;
     printf("\n-----------查询-----------\n请输入查询卡号： ");
-    bool cZ = false;
+    bool isExist = false;
     do
     {
-        cZ = false;
+        isExist = false;
         scanf("%s", aName);
-        pCard = queryCardsinfo(aName, nIndex); //通过卡名模糊查找所有卡信息，保存至链表头
+        pCard = queryCardsinfo(aName, pIndex); //通过卡名模糊查找所有卡信息，保存至链表头
         if (pCard == NULL || nIndex == 0)
         {
-            cZ = true;
+            isExist = true;
             printf("\n查找失败，无对应卡号，请重新输入查询卡号: ");
         }
-    } while (cZ);
+    } while (isExist);
     printf("\n您所查询的所有卡信息为:");
     for (int i = 0; i < nIndex; i++)
     {
         timeToString(pCard[i].tLastTime, aTime);
         statusInttoChar(pCard[i].nStatus, status);
-        printf("\n卡号\t状态\t\t余额\t累计使用\t使用次数\t上次使用时间\n");
-        printf("%s\t%s\t%f\t%f\t\t%d\t\t%s", pCard[i].aName, status, pCard[i].nBalance, pCard[i].fTotalUse, pCard[i].nUseCount, aTime);
+        printf("\n卡号\t状态\t\t余额\t\t累计使用\t使用次数\t上次使用时间\n");
+        printf("%s\t%s\t%f\t%f\t%d\t\t%s", pCard[i].aName, status, pCard[i].nBalance, pCard[i].fTotalUse, pCard[i].nUseCount, aTime);
     }
 }
 
@@ -120,19 +121,24 @@ void logon()
         //时间形式转换
         timeToString(pLogonInfo.tLogon, aTime);
         printf("\n----------上机信息如下---------");
-        printf("\n卡号\t余额\t上机时间\n");
-        printf("%s\t%f\t%s", pLogonInfo.aCardName, pLogonInfo.fBalance, aTime);
+        printf("\n卡号\t余额\t\t上机时间\n%s\t%f\t%s", pLogonInfo.aCardName, pLogonInfo.fBalance, aTime);
         break;
     }
     case 2:
+    {
         printf("卡状态错误，上机失败");
         break;
+    }
     case 3:
+    {
         printf("余额不足，上机失败");
         break;
+    }
     default:
+    {
         printf("查询信息有误,上机失败");
         break;
+    }
     }
 }
 
@@ -162,19 +168,25 @@ void settle()
         timeToString(pSettleInfo.tStart, aTime1);
         timeToString(pSettleInfo.tEnd, aTime2);
         printf("\n----------下机信息如下---------");
-        printf("\n卡号\t消费金额\t余额\t上机时间\t\t下机时间\n");
-        printf("%s\t%f\t\t%f\t%s\t%s", pSettleInfo.aCardName, pSettleInfo.fAmount, pSettleInfo.fBalance, aTime1, aTime2);
+        printf("\n卡号\t消费金额\t余额\t\t上机时间\t\t下机时间\n");
+        printf("%s\t%f\t%f\t%s\t%s", pSettleInfo.aCardName, pSettleInfo.fAmount, pSettleInfo.fBalance, aTime1, aTime2);
         break;
     }
     case 2:
+    {
         printf("卡状态错误，下机失败");
         break;
+    }
     case 3:
+    {
         printf("余额不足，下机失败");
         break;
+    }
     default:
+    {
         printf("查询信息有误,下机失败");
         break;
+    }
     }
 }
 
@@ -204,19 +216,24 @@ void addMoney()
     case 1:
     {
         printf("\n----------充值信息如下---------");
-        printf("\n卡号\t充值金额\t余额\n");
-        printf("%s\t%f\t\t%f", pMoneyInfo.aCardName, pMoneyInfo.money, pMoneyInfo.fBalance);
+        printf("\n卡号\t充值金额\t余额\n%s\t%f\t%f", pMoneyInfo.aCardName, pMoneyInfo.money, pMoneyInfo.fBalance);
         break;
     }
     case 2:
+    {
         printf("卡状态错误，充值失败");
         break;
+    }
     case 3:
+    {
         printf("余额不足，充值失败");
         break;
+    }
     default:
+    {
         printf("查询信息有误,充值失败");
         break;
+    }
     }
 }
 
@@ -244,19 +261,24 @@ void refundMoney()
     case 1:
     {
         printf("\n----------退费信息如下---------");
-        printf("\n卡号\t退费金额\t余额\n");
-        printf("%s\t%f\t%f", pMoneyInfo.aCardName, pMoneyInfo.money, pMoneyInfo.fBalance);
+        printf("\n卡号\t退费金额\t余额\n%s\t%f\t%f", pMoneyInfo.aCardName, pMoneyInfo.money, pMoneyInfo.fBalance);
         break;
     }
     case 2:
+    {
         printf("卡状态错误，退费失败");
         break;
+    }
     case 3:
+    {
         printf("余额不足，退费失败");
         break;
+    }
     default:
+    {
         printf("查询信息有误,退费失败");
         break;
+    }
     }
 }
 

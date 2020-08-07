@@ -5,5 +5,5 @@ int addBilling(Billing billing);
 int initBillingList();
 void releaseBillingList();
 int getBilling();
-Billing *checkBilling(const char *pName, int &nIndex);
+Billing *checkBilling(const char *pName, int *nIndex);
 #endif

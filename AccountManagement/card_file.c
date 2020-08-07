@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "global.h"
 #include "model.h"
@@ -24,7 +25,7 @@ int saveCard(const Card *pCard, const char *pPath)
 int readCard(Card *pCard, const char *pPath)
 {
     int i = 0;
-    Card *NCard = new Card;
+    Card *NCard = (Card *)malloc(sizeof(Card));
     FILE *fp = NULL;
     fp = fopen(pPath, "rb");
     if (fp == NULL)
@@ -40,14 +41,14 @@ int readCard(Card *pCard, const char *pPath)
         }
     }
     fclose(fp);
-    delete NCard;
+    free(NCard);
     return TRUE;
 }
 
 int FindCardName(const char *pName, const char *pPath)
 {
     FILE *fp = NULL;
-    Card *NCard = new Card;
+    Card *NCard = (Card *)malloc(sizeof(Card));
     fp = fopen(pPath, "rb");
     if (fp == NULL)
     {
@@ -61,13 +62,13 @@ int FindCardName(const char *pName, const char *pPath)
             if (strcmp(pName, NCard->aName) == 0)
             {
                 fclose(fp);
-                delete NCard;
+                free(NCard);
                 return TRUE;
             }
         }
     }
     fclose(fp);
-    delete NCard;
+    free(NCard);
     return FALSE;
 }
 
@@ -75,7 +76,7 @@ int getCardCount(const char *Path)
 {
     int Index = 0;
     FILE *fp = NULL;
-    Card *NCard = new Card;
+    Card *NCard = (Card *)malloc(sizeof(Card));
     fp = fopen(Path, "rb");
     if (fp == NULL)
     {
@@ -89,7 +90,7 @@ int getCardCount(const char *Path)
             Index++;
         }
     }
-    delete NCard;
+    free(NCard);
     fclose(fp);
     return Index;
 }
@@ -97,7 +98,7 @@ int getCardCount(const char *Path)
 int updataCard(const Card *pCard, const char *pPath, int nIndex)
 {
     FILE *fp = NULL;
-    Card *NCard = new Card;
+    Card *NCard = (Card *)malloc(sizeof(Card));
     int nLine = 0;      //文件行数
     long lPosition = 0; //文件位置标示
     fp = fopen(pPath, "rb+");
@@ -116,7 +117,7 @@ int updataCard(const Card *pCard, const char *pPath, int nIndex)
     }
     fseek(fp, lPosition, 0); //移动到文件标识位置
     fwrite(pCard, sizeof(Card), 1, fp);
-    delete NCard;
+    free(NCard);
     fclose(fp);
     return TRUE;
 }

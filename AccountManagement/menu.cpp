@@ -1,8 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
-#include "global.h"
-#include "model.h"
 #include "service.h"
 #include "tools.h"
 

@@ -1,12 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "billing_file.h"
 #include "billing_service.h"
 #include "card_file.h"
 #include "card_sevice.h"
 #include "global.h"
-#include "model.h"
 #include "money_file.h"
 
 float getAmount(time_t tStart);

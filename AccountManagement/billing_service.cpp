@@ -3,8 +3,6 @@
 #include <string.h>
 #include "billing_file.h"
 #include "global.h"
-#include "model.h"
-#include "tools.h"
 
 IpBillingNode BillingList = NULL; //全局定义消费信息链表保存所有消费信息
 int nbillingCount = 0;
